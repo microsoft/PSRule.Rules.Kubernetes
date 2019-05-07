@@ -1,7 +1,11 @@
 {
     "files.exclude": {
-        "**/.git": true,
-        "**/reports": true,
-        "**/out": true
-    }
+        "reports/": true,
+        "out/": true
+    },
+    "search.exclude": {
+        "out/": true
+    },
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
 }

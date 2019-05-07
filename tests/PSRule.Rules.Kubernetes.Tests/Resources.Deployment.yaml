@@ -1,0 +1,53 @@
+#
+# Kubernetes Deployment resources for unit tests
+#
+
+---
+# An example deployment that should pass all rules.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-A
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-A
+  template:
+    metadata:
+      labels:
+        app: app-A
+    spec:
+      containers:
+      - name: app-a
+        image: app-a-image:v1
+        securityContext:
+          allowPrivilegeEscalation: false
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-B
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-B
+  template:
+    metadata:
+      labels:
+        app: app-B
+    spec:
+      containers:
+      - name: app-b
+        image: app-b-image

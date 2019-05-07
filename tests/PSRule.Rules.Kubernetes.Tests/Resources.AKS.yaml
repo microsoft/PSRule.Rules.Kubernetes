@@ -1,0 +1,29 @@
+#
+# Kubernetes Service resources for unit tests
+#
+
+---
+# An example service that should pass all rules.
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-A
+spec:
+  ports:
+  - port: 80
+    name: http
+  selector:
+    app: app-A
+
+---
+# This service should fail kubernetes.AKS.PublicLoadBalancer
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-B
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 6379
+  selector:
+    app: app-B

@@ -1,0 +1,84 @@
+
+# An example deployment that should pass all rules.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-A
+  labels:
+    app.kubernetes.io/name: solution-A
+    app.kubernetes.io/version: 0.0.1
+    app.kubernetes.io/component: unit-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-A
+  template:
+    metadata:
+      labels:
+        app: app-A
+    spec:
+      containers:
+      - name: green-app
+        image: green-image:v1
+        securityContext:
+          allowPrivilegeEscalation: false
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-B
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: unconstrained-app
+  template:
+    metadata:
+      labels:
+        app: unconstrained-app
+    spec:
+      containers:
+      - name: unconstrained-app
+        image: unconstrained-image
+
+
+---
+# An example service that should pass all rules.
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-A
+  labels:
+    app.kubernetes.io/name: solution-A
+    app.kubernetes.io/version: 0.0.1
+    app.kubernetes.io/component: unit-test
+spec:
+  ports:
+  - port: 80
+    name: http
+  selector:
+    app: app-A
+
+---
+# This service should fail kubernetes.AKS.PublicLoadBalancer
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-B
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 6379
+  selector:
+    app: red-app
