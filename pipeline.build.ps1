@@ -152,7 +152,7 @@ task BuildModule CopyModule
 
 task TestRules PSRule, Pester, PSScriptAnalyzer, {
     # Run Pester tests
-    $pesterParams = @{ Path = $PWD; OutputFile = 'reports/Pester.xml'; OutputFormat = 'NUnitXml'; PesterOption = @{ IncludeVSCodeMarker = $True }; PassThru = $True; };
+    $pesterParams = @{ Path = $PWD; OutputFile = 'reports/pester-unit.xml'; OutputFormat = 'NUnitXml'; PesterOption = @{ IncludeVSCodeMarker = $True }; PassThru = $True; };
 
     if (!(Test-Path -Path reports)) {
         $Null = New-Item -Path reports -ItemType Directory -Force;
