@@ -16,6 +16,20 @@
                 "clear": true,
                 "panel": "dedicated"
             }
+        },
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "Invoke-Build Build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [ "$pester" ],
+            "presentation": {
+                "clear": true,
+                "panel": "dedicated"
+            }
         }
     ]
 }

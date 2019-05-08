@@ -1,8 +1,29 @@
 
 [CmdletBinding()]
 param (
+    [Parameter(Mandatory = $False)]
+    [String]$ModuleVersion,
 
+    [Parameter(Mandatory = $False)]
+    [AllowNull()]
+    [String]$ReleaseVersion,
+
+    [Parameter(Mandatory = $False)]
+    [String]$Configuration = 'Debug',
+
+    [Parameter(Mandatory = $False)]
+    [String]$NuGetApiKey,
+
+    [Parameter(Mandatory = $False)]
+    [Switch]$CodeCoverage = $False,
+
+    [Parameter(Mandatory = $False)]
+    [String]$ArtifactPath = (Join-Path -Path $PWD -ChildPath out/modules)
 )
+
+if ($Env:Coverage -eq 'true') {
+    $CodeCoverage = $True;
+}
 
 # Copy the PowerShell modules files to the destination path
 function CopyModuleFiles {
@@ -31,6 +52,51 @@ function CopyModuleFiles {
 
             Copy-Item -Path $_.FullName -Destination $filePath -Force;
         };
+    }
+}
+
+task VersionModule {
+    if (![String]::IsNullOrEmpty($ReleaseVersion)) {
+        Write-Verbose -Message "[VersionModule] -- ReleaseVersion: $ReleaseVersion";
+        $ModuleVersion = $ReleaseVersion;
+    }
+
+    if (![String]::IsNullOrEmpty($ModuleVersion)) {
+        Write-Verbose -Message "[VersionModule] -- ModuleVersion: $ModuleVersion";
+
+        $version = $ModuleVersion;
+        $revision = [String]::Empty;
+
+        Write-Verbose -Message "[VersionModule] -- Using Version: $version";
+        Write-Verbose -Message "[VersionModule] -- Using Revision: $revision";
+
+        if ($version -like '*-*') {
+            [String[]]$versionParts = $version.Split('-', [System.StringSplitOptions]::RemoveEmptyEntries);
+            $version = $versionParts[0];
+
+            if ($versionParts.Length -eq 2) {
+                $revision = $versionParts[1];
+            }
+        }
+
+        # Update module version
+        if (![String]::IsNullOrEmpty($version)) {
+            Write-Verbose -Message "[VersionModule] -- Updating module manifest ModuleVersion";
+            Update-ModuleManifest -Path (Join-Path -Path $ArtifactPath -ChildPath PSRule.Rules.Kubernetes/PSRule.Rules.Kubernetes.psd1) -ModuleVersion $version;
+        }
+
+        # Update pre-release version
+        if (![String]::IsNullOrEmpty($revision)) {
+            Write-Verbose -Message "[VersionModule] -- Updating module manifest Prerelease";
+            Update-ModuleManifest -Path (Join-Path -Path $ArtifactPath -ChildPath PSRule.Rules.Kubernetes/PSRule.Rules.Kubernetes.psd1) -Prerelease $revision;
+        }
+    }
+}
+
+task ReleaseModule VersionModule, {
+    if (![String]::IsNullOrEmpty($NuGetApiKey)) {
+        # Publish to PowerShell Gallery
+        Publish-Module -Path (Join-Path -Path $ArtifactPath -ChildPath PSRule.Rules.Kubernetes) -NuGetApiKey $NuGetApiKey;
     }
 }
 
@@ -65,6 +131,14 @@ task PSRule NuGet, {
     Import-Module -Name PSRule -Verbose:$False;
 }
 
+# Synopsis: Install PSDocs
+task PSDocs NuGet, {
+    if ($Null -eq (Get-InstalledModule -Name PSDocs -MinimumVersion 0.6.1 -ErrorAction Ignore)) {
+        Install-Module -Name PSDocs -MinimumVersion 0.6.1 -Scope CurrentUser -Force;
+    }
+    Import-Module -Name PSDocs -Verbose:$False;
+}
+
 task CopyModule {
     CopyModuleFiles -Path src/PSRule.Rules.Kubernetes -DestinationPath out/modules/PSRule.Rules.Kubernetes;
 
@@ -95,13 +169,20 @@ task TestRules PSRule, Pester, PSScriptAnalyzer, {
     }
 }
 
+# Synopsis: Build table of content for rules
+task BuildRuleDocs PSDocs, {
+    Invoke-PSDocument -Name Kubernetes -OutputPath .\docs\rules\en-US\ -Path .\RuleToc.Document.ps1
+}
+
 # Synopsis: Remove temp files.
 task Clean {
     Remove-Item -Path out,reports -Recurse -Force -ErrorAction SilentlyContinue;
 }
 
-task Build Clean, BuildModule
+task Build Clean, BuildModule, BuildRuleDocs
 
 task Test Build, TestRules
+
+task Release ReleaseModule
 
 task . Build

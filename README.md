@@ -38,6 +38,12 @@ Invoke-PSRule -Module PSRule.Rules.Kubernetes -InputPath .\service.yaml;
 Invoke-PSRule -Module PSRule.Rules.Kubernetes -InputObject (kubectl get services -o yaml | Out-String) -Format Yaml -ObjectPath items;
 ```
 
+## Rule reference
+
+The following rules are included in the `PSRule.Rules.Kubernetes` module:
+
+- [PSRule.Rules.Kubernetes](docs/rules/en-US/Kubernetes.md)
+
 ## Changes and versioning
 
 Modules in this repository will use the [semantic versioning](http://semver.org/) model to declare breaking changes from v1.0.0. Prior to v1.0.0, breaking changes may be introduced in minor (0.x.0) version increments. For a list of module changes please see the [change log](CHANGELOG.md).

@@ -8,7 +8,26 @@ param (
     [String]$File,
 
     [Parameter(Mandatory = $False)]
-    [String]$Task
+    [String]$Task,
+
+    [Parameter(Mandatory = $False)]
+    [String]$ModuleVersion,
+
+    [Parameter(Mandatory = $False)]
+    [AllowNull()]
+    [String]$ReleaseVersion,
+
+    [Parameter(Mandatory = $False)]
+    [String]$Configuration,
+
+    [Parameter(Mandatory = $False)]
+    [String]$NuGetApiKey,
+
+    [Parameter(Mandatory = $False)]
+    [Switch]$CodeCoverage = $False,
+
+    [Parameter(Mandatory = $False)]
+    [String]$ArtifactPath
 )
 
 if ($Null -eq (Get-PackageProvider -Name NuGet -ErrorAction Ignore)) {
