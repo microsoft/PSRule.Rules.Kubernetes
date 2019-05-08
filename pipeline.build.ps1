@@ -185,4 +185,4 @@ task Test Build, TestRules
 
 task Release ReleaseModule
 
-task . Build
+task . Build, Test
