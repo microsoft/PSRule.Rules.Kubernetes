@@ -30,6 +30,16 @@
                 "clear": true,
                 "panel": "dedicated"
             }
+        },
+        {
+            "label": "build-rule-docs",
+            "type": "shell",
+            "command": "Invoke-Build BuildRuleDocs",
+            "problemMatcher": [ ],
+            "presentation": {
+                "clear": true,
+                "panel": "dedicated"
+            }
         }
     ]
 }
