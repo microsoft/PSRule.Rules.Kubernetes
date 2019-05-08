@@ -170,7 +170,7 @@ task TestRules PSRule, Pester, PSScriptAnalyzer, {
 }
 
 # Synopsis: Build table of content for rules
-task BuildRuleDocs PSDocs, {
+task BuildRuleDocs PSRule, PSDocs, {
     Invoke-PSDocument -Name Kubernetes -OutputPath .\docs\rules\en-US\ -Path .\RuleToc.Document.ps1
 }
 
