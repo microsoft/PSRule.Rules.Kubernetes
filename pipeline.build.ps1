@@ -179,7 +179,7 @@ task Clean {
     Remove-Item -Path out,reports -Recurse -Force -ErrorAction SilentlyContinue;
 }
 
-task Build Clean, BuildModule
+task Build Clean, BuildModule, VersionModule
 
 task Test Build, TestRules
 
