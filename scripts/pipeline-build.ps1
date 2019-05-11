@@ -30,6 +30,10 @@ param (
     [String]$ArtifactPath
 )
 
+if ($Env:SYSTEM_DEBUG -eq 'true') {
+    $VerbosePreference = 'Continue';
+}
+
 if ($Null -eq (Get-PackageProvider -Name NuGet -ErrorAction Ignore)) {
     Install-PackageProvider -Name NuGet -Force -Scope CurrentUser;
 }

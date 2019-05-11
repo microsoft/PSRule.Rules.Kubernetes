@@ -21,6 +21,10 @@ param (
     [String]$ArtifactPath = (Join-Path -Path $PWD -ChildPath out/modules)
 )
 
+if ($Env:SYSTEM_DEBUG -eq 'true') {
+    $VerbosePreference = 'Continue';
+}
+
 if ($Env:Coverage -eq 'true') {
     $CodeCoverage = $True;
 }
