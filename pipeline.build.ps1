@@ -21,6 +21,10 @@ param (
     [String]$ArtifactPath = (Join-Path -Path $PWD -ChildPath out/modules)
 )
 
+if ($Env:SYSTEM_DEBUG -eq 'true') {
+    $VerbosePreference = 'Continue';
+}
+
 if ($Env:Coverage -eq 'true') {
     $CodeCoverage = $True;
 }
@@ -55,7 +59,7 @@ function CopyModuleFiles {
     }
 }
 
-task VersionModule {
+task VersionModule PSRule, {
     if (![String]::IsNullOrEmpty($ReleaseVersion)) {
         Write-Verbose -Message "[VersionModule] -- ReleaseVersion: $ReleaseVersion";
         $ModuleVersion = $ReleaseVersion;
@@ -68,7 +72,6 @@ task VersionModule {
         $revision = [String]::Empty;
 
         Write-Verbose -Message "[VersionModule] -- Using Version: $version";
-        Write-Verbose -Message "[VersionModule] -- Using Revision: $revision";
 
         if ($version -like '*-*') {
             [String[]]$versionParts = $version.Split('-', [System.StringSplitOptions]::RemoveEmptyEntries);
@@ -77,6 +80,8 @@ task VersionModule {
             if ($versionParts.Length -eq 2) {
                 $revision = $versionParts[1];
             }
+
+            Write-Verbose -Message "[VersionModule] -- Using Revision: $revision";
         }
 
         # Update module version
@@ -179,7 +184,7 @@ task Clean {
     Remove-Item -Path out,reports -Recurse -Force -ErrorAction SilentlyContinue;
 }
 
-task Build Clean, BuildModule
+task Build Clean, BuildModule, VersionModule
 
 task Test Build, TestRules
 
