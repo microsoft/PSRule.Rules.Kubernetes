@@ -126,7 +126,7 @@ task PSScriptAnalyzer NuGet, {
 # Synopsis: Install PSRule
 task PSRule NuGet, {
     if ($Null -eq (Get-InstalledModule -Name PSRule -MinimumVersion 0.5.0 -ErrorAction Ignore)) {
-        Install-Module -Name PSRule -MinimumVersion 0.5.0 -Scope CurrentUser -Force;
+        Install-Module -Name PSRule -MinimumVersion 0.5.0 -AllowPrerelease -Scope CurrentUser -Force;
     }
     Import-Module -Name PSRule -Verbose:$False;
 }
@@ -134,7 +134,7 @@ task PSRule NuGet, {
 # Synopsis: Install PSDocs
 task PSDocs NuGet, {
     if ($Null -eq (Get-InstalledModule -Name PSDocs -MinimumVersion 0.6.1 -ErrorAction Ignore)) {
-        Install-Module -Name PSDocs -MinimumVersion 0.6.1 -Scope CurrentUser -Force;
+        Install-Module -Name PSDocs -MinimumVersion 0.6.1 -AllowPrerelease -Scope CurrentUser -Force;
     }
     Import-Module -Name PSDocs -Verbose:$False;
 }
@@ -152,7 +152,7 @@ task BuildModule CopyModule
 
 task TestRules PSRule, Pester, PSScriptAnalyzer, {
     # Run Pester tests
-    $pesterParams = @{ Path = $PWD; OutputFile = 'reports/Pester.xml'; OutputFormat = 'NUnitXml'; PesterOption = @{ IncludeVSCodeMarker = $True }; PassThru = $True; };
+    $pesterParams = @{ Path = $PWD; OutputFile = 'reports/pester-unit.xml'; OutputFormat = 'NUnitXml'; PesterOption = @{ IncludeVSCodeMarker = $True }; PassThru = $True; };
 
     if (!(Test-Path -Path reports)) {
         $Null = New-Item -Path reports -ItemType Directory -Force;
@@ -170,7 +170,7 @@ task TestRules PSRule, Pester, PSScriptAnalyzer, {
 }
 
 # Synopsis: Build table of content for rules
-task BuildRuleDocs PSDocs, {
+task BuildRuleDocs PSRule, PSDocs, {
     Invoke-PSDocument -Name Kubernetes -OutputPath .\docs\rules\en-US\ -Path .\RuleToc.Document.ps1
 }
 
@@ -179,10 +179,10 @@ task Clean {
     Remove-Item -Path out,reports -Recurse -Force -ErrorAction SilentlyContinue;
 }
 
-task Build Clean, BuildModule, BuildRuleDocs
+task Build Clean, BuildModule
 
 task Test Build, TestRules
 
 task Release ReleaseModule
 
-task . Build
+task . Build, Test
