@@ -50,7 +50,7 @@ DotNetFrameworkVersion = '4.7.2'
 
 # Modules that must be imported into the global environment prior to importing this module
 RequiredModules = @(
-    @{ ModuleName = 'PSRule'; ModuleVersion = '0.5.0' }
+    @{ ModuleName = 'PSRule'; ModuleVersion = '0.0.1' }
 )
 
 # Assemblies that must be loaded prior to importing this module
@@ -95,7 +95,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = @('PSRule', 'Rule', 'Kubernetes')
+        Tags = @('PSRule', 'PSRule-rules', 'Rule', 'Kubernetes')
 
         # A URL to the license for this module.
         LicenseUri = 'https://github.com/BernieWhite/PSRule.Rules.Kubernetes/blob/master/LICENSE'
