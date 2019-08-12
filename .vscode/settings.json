@@ -7,5 +7,27 @@
         "out/": true
     },
     "editor.insertSpaces": true,
-    "editor.tabSize": 4
+    "editor.tabSize": 4,
+    "[yaml]": {
+        "editor.tabSize": 2
+    },
+    "[markdown]": {
+        "editor.tabSize": 2
+    },
+    "files.associations": {
+        "**/.azure-pipelines/*.yaml": "azure-pipelines"
+    },
+    "cSpell.words": [
+        "Kubernetes"
+    ],
+    "cSpell.enabledLanguageIds": [
+        "csharp",
+        "git-commit", 
+        "markdown",
+        "plaintext",
+        "powershell",
+        "text",
+        "yaml",
+        "yml"
+    ]
 }
