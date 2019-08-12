@@ -2,9 +2,12 @@
 # Validation rules for Kubernetes metadata requirements
 #
 
-# Description: Must have the app.kubernetes.io/name label
+# Description: Use recommended labels
 Rule 'Kubernetes.Metadata' -Type 'Deployment', 'Service' -Tag @{ category = 'Resource management'; severity = 'Important' } {
-    Exists 'metadata.labels.''app.kubernetes.io/name'''
-    Exists 'metadata.labels.''app.kubernetes.io/version'''
-    Exists 'metadata.labels.''app.kubernetes.io/component'''
+    Exists 'metadata.labels.''app.kubernetes.io/name''' -Reason ($LocalizedData.RecommendLabel -f 'app.kubernetes.io/name')
+    Exists 'metadata.labels.''app.kubernetes.io/instance''' -Reason ($LocalizedData.RecommendLabel -f 'app.kubernetes.io/instance')
+    Exists 'metadata.labels.''app.kubernetes.io/version''' -Reason ($LocalizedData.RecommendLabel -f 'app.kubernetes.io/version')
+    Exists 'metadata.labels.''app.kubernetes.io/component''' -Reason ($LocalizedData.RecommendLabel -f 'app.kubernetes.io/component')
+    Exists 'metadata.labels.''app.kubernetes.io/part-of''' -Reason ($LocalizedData.RecommendLabel -f 'app.kubernetes.io/part-of')
+    Exists 'metadata.labels.''app.kubernetes.io/managed-by''' -Reason ($LocalizedData.RecommendLabel -f 'app.kubernetes.io/managed-by')
 }

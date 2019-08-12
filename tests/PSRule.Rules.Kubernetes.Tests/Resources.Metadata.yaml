@@ -6,8 +6,11 @@ metadata:
   name: deployment-A
   labels:
     app.kubernetes.io/name: solution-A
+    app.kubernetes.io/instance: solution-A-unit-test
     app.kubernetes.io/version: 0.0.1
     app.kubernetes.io/component: unit-test
+    app.kubernetes.io/part-of: blueprint-A
+    app.kubernetes.io/managed-by: helm
 spec:
   replicas: 1
   selector:
@@ -61,8 +64,11 @@ metadata:
   name: service-A
   labels:
     app.kubernetes.io/name: solution-A
+    app.kubernetes.io/instance: solution-A-unit-test
     app.kubernetes.io/version: 0.0.1
     app.kubernetes.io/component: unit-test
+    app.kubernetes.io/part-of: blueprint-A
+    app.kubernetes.io/managed-by: helm
 spec:
   ports:
   - port: 80
