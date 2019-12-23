@@ -1,5 +1,5 @@
 #
-# Unit tests for Kubernetes AKS rules
+# Unit tests for Kubernetes resource rules
 #
 
 [CmdletBinding()]
@@ -20,30 +20,30 @@ $rootPath = $PWD;
 Import-Module (Join-Path -Path $rootPath -ChildPath out/modules/PSRule.Rules.Kubernetes) -Force;
 $here = (Resolve-Path $PSScriptRoot).Path;
 
-Describe 'Kubernetes.AKS' {
+Describe 'Kubernetes.API.Removal' {
     $testParams = @{
         Module = 'PSRule.Rules.Kubernetes'
-        # Option = Join-Path -Path $here -ChildPath ps-rule.yaml
-        InputPath = Join-Path -Path $here -ChildPath Resources.AKS.yaml
+        Option = Join-Path -Path $here -ChildPath ps-rule.yaml
+        InputPath = Join-Path -Path $here -ChildPath Resources.Pod.yaml
     }
 
     $result = Invoke-PSRule @testParams -WarningAction Ignore;
 
-    Context 'Security' {
-        It 'Kubernetes.AKS.PublicLB' {
-            $filteredResult = $result | Where-Object { $_.RuleName -eq 'Kubernetes.AKS.PublicLB' };
+    Context 'API' {
+        It 'Kubernetes.API.Removal' {
+            $filteredResult = $result | Where-Object { $_.RuleName -eq 'Kubernetes.API.Removal' };
 
             # Fail
             $ruleResult = @($filteredResult | Where-Object { $_.Outcome -eq 'Fail' });
             $ruleResult | Should -Not -BeNullOrEmpty;
             $ruleResult.Length | Should -Be 1;
-            $ruleResult.TargetName | Should -Be 'service-B';
+            $ruleResult.TargetName | Should -Be 'deployment-B';
 
             # Pass
             $ruleResult = @($filteredResult | Where-Object { $_.Outcome -eq 'Pass' });
             $ruleResult | Should -Not -BeNullOrEmpty;
-            $ruleResult.Length | Should -Be 2;
-            $ruleResult.TargetName | Should -BeIn 'service-A', 'service-C';
+            $ruleResult.Length | Should -Be 1;
+            $ruleResult.TargetName | Should -Be 'deployment-A';
         }
     }
 }

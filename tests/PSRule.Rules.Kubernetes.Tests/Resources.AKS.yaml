@@ -27,3 +27,18 @@ spec:
   - port: 6379
   selector:
     app: app-B
+
+---
+# This service should fail kubernetes.AKS.PublicLoadBalancer
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-C
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 6379
+  selector:
+    app: app-C

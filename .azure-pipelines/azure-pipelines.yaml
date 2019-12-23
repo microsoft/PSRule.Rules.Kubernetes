@@ -5,8 +5,8 @@ variables:
   version: '0.1.0'
   buildConfiguration: 'Release'
 
- # Use build number format, i.e. 0.1.0-B181101
-name: $(version)-B$(date:yyMM)$(rev:rr)
+ # Use build number format, i.e. 0.1.0-B1811001
+name: $(version)-B$(date:yyMM)$(rev:rrr)
 
 trigger:
   branches:
@@ -32,10 +32,10 @@ stages:
       matrix:
         Linux:
           displayName: 'Linux'
-          imageName: 'ubuntu-16.04'
+          imageName: 'ubuntu-latest'
         MacOS:
           displayName: 'MacOS'
-          imageName: 'macos-10.13'
+          imageName: 'macOS-latest'
         Windows:
           displayName: 'Windows'
           imageName: 'vs2017-win2016'
@@ -102,11 +102,9 @@ stages:
       condition: eq(variables['coverage'], 'true')
 
     # Generate artifacts
-    - task: PublishPipelineArtifact@0
+    - publish: out/modules/PSRule.Rules.Kubernetes
       displayName: 'Publish module'
-      inputs:
-        artifactName: PSRule.Rules.Kubernetes
-        targetPath: out/modules/PSRule.Rules.Kubernetes
+      artifact: PSRule.Rules.Kubernetes
       condition: and(succeeded(), eq(variables['publish'], 'true'))
 
 # Release pipeline
@@ -118,7 +116,7 @@ stages:
   - job:
     displayName: Live
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'ubuntu-latest'
     variables:
       isPreRelease: $[contains(variables['Build.SourceBranchName'], '-B')]
     steps:

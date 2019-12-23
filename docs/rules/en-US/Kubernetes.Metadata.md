@@ -12,7 +12,8 @@ Use Kubernetes common labels.
 
 ## DESCRIPTION
 
-Kubernetes defines a common set of labels that are recommended for tool interoperability. These labels should be used to consistently apply standard metadata.
+Kubernetes defines a common set of labels that are recommended for tool interoperability.
+These labels should be used to consistently apply standard metadata.
 
 ## RECOMMENDATION
 

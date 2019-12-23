@@ -42,7 +42,7 @@ Invoke-PSRule -Module PSRule.Rules.Kubernetes -InputObject (kubectl get services
 
 The following rules are included in the `PSRule.Rules.Kubernetes` module:
 
-- [PSRule.Rules.Kubernetes](docs/rules/en-US/Kubernetes.md)
+- [PSRule.Rules.Kubernetes](docs/rules/en-US/module.md)
 
 ## Changes and versioning
 
