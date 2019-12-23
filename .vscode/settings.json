@@ -29,5 +29,8 @@
         "text",
         "yaml",
         "yml"
-    ]
+    ],
+    "yaml.schemas": {
+        "kubernetes": "/tests/PSRule.Rules.Kubernetes.Tests/Resources.*.yaml"
+    }
 }

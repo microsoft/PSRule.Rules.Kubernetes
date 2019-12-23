@@ -2,8 +2,8 @@
 # Validation rules for Kubernetes metadata requirements
 #
 
-# Description: Use recommended labels
-Rule 'Kubernetes.Metadata' -Type 'Deployment', 'Service' -Tag @{ category = 'Resource management'; severity = 'Important' } {
+# Synopsis: Use recommended labels
+Rule 'Kubernetes.Metadata' -Type 'Deployment', 'Service', 'ReplicaSet', 'Pod' -Tag @{ category = 'Resource management'; } {
     Exists 'metadata.labels.''app.kubernetes.io/name''' -Reason ($LocalizedData.RecommendLabel -f 'app.kubernetes.io/name')
     Exists 'metadata.labels.''app.kubernetes.io/instance''' -Reason ($LocalizedData.RecommendLabel -f 'app.kubernetes.io/instance')
     Exists 'metadata.labels.''app.kubernetes.io/version''' -Reason ($LocalizedData.RecommendLabel -f 'app.kubernetes.io/version')

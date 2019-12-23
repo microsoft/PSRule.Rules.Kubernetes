@@ -62,7 +62,7 @@ function CopyModuleFiles {
     process {
         $sourcePath = Resolve-Path -Path $Path;
 
-        Get-ChildItem -Path $sourcePath -Recurse -File -Include *.ps1,*.psm1,*.psd1,*.ps1xml | Where-Object -FilterScript {
+        Get-ChildItem -Path $sourcePath -Recurse -File -Include *.ps1,*.yaml,*.psm1,*.psd1,*.ps1xml | Where-Object -FilterScript {
             ($_.FullName -notmatch '(\.(cs|csproj)|(\\|\/)(obj|bin))')
         } | ForEach-Object -Process {
             $filePath = $_.FullName.Replace($sourcePath, $destinationPath);
@@ -100,13 +100,16 @@ task VersionModule ModuleDependencies, {
     $manifest = Test-ModuleManifest -Path $manifestPath;
     $requiredModules = $manifest.RequiredModules | ForEach-Object -Process {
         if ($_.Name -eq 'PSRule' -and $Configuration -eq 'Release') {
-            @{ ModuleName = 'PSRule'; ModuleVersion = '0.8.0' }
+            @{ ModuleName = 'PSRule'; ModuleVersion = '0.11.0' }
         }
         else {
             @{ ModuleName = $_.Name; ModuleVersion = $_.Version }
         }
     };
     Update-ModuleManifest -Path $manifestPath -RequiredModules $requiredModules;
+    $manifestContent = Get-Content -Path $manifestPath -Raw;
+    $manifestContent = $manifestContent -replace 'PSRule = ''System.Collections.Hashtable''', 'PSRule = @{ Baseline = ''KubeBaseline'' }';
+    $manifestContent | Set-Content -Path $manifestPath;
 }
 
 # Synopsis: Publish to PowerShell Gallery
@@ -147,16 +150,16 @@ task PSScriptAnalyzer NuGet, {
 
 # Synopsis: Install PSRule
 task PSRule NuGet, {
-    if ($Null -eq (Get-InstalledModule -Name PSRule -MinimumVersion 0.8.0 -ErrorAction Ignore)) {
-        Install-Module -Name PSRule -MinimumVersion 0.8.0 -Scope CurrentUser -Force;
+    if ($Null -eq (Get-InstalledModule -Name PSRule -MinimumVersion 0.11.0 -ErrorAction Ignore)) {
+        Install-Module -Name PSRule -MinimumVersion 0.11.0 -Scope CurrentUser -Force;
     }
     Import-Module -Name PSRule -Verbose:$False;
 }
 
 # Synopsis: Install PSDocs
 task PSDocs NuGet, {
-    if ($Null -eq (Get-InstalledModule -Name PSDocs -MinimumVersion 0.6.1 -ErrorAction Ignore)) {
-        Install-Module -Name PSDocs -MinimumVersion 0.6.1 -AllowPrerelease -Scope CurrentUser -Force;
+    if ($Null -eq (Get-InstalledModule -Name PSDocs -MinimumVersion 0.6.3 -ErrorAction Ignore)) {
+        Install-Module -Name PSDocs -MinimumVersion 0.6.3 -AllowPrerelease -Scope CurrentUser -Force;
     }
     Import-Module -Name PSDocs -Verbose:$False;
 }
@@ -212,11 +215,11 @@ task Analyze Build, PSScriptAnalyzer, {
 # Synopsis: Build table of content for rules
 task BuildRuleDocs Build, PSRule, PSDocs, {
     Import-Module (Join-Path -Path $PWD -ChildPath out/modules/PSRule.Rules.Kubernetes) -Force;
-    $Null = Invoke-PSDocument -Name Kubernetes -OutputPath .\docs\rules\en-US\ -Path .\RuleToc.Doc.ps1;
-    $rules = Get-PSRule -Module 'PSRule.Rules.Kubernetes';
-    $rules | ForEach-Object -Process {
-        Invoke-PSDocument -Path .\RuleHelp.Doc.ps1 -OutputPath .\docs\rules\en-US\ -InstanceName $_.Info.Name -inputObject $_;
-    }
+    $Null = Invoke-PSDocument -Name module -OutputPath .\docs\rules\en-US\ -Path .\RuleToc.Doc.ps1;
+    # $rules = Get-PSRule -Module 'PSRule.Rules.Kubernetes';
+    # $rules | ForEach-Object -Process {
+    #     Invoke-PSDocument -Path .\RuleHelp.Doc.ps1 -OutputPath .\docs\rules\en-US\ -InstanceName $_.Info.Name -inputObject $_;
+    # }
 }
 
 # Synopsis: Build help
@@ -224,13 +227,23 @@ task BuildHelp BuildModule, PlatyPS, {
     # Generate MAML and about topics
     # $Null = New-ExternalHelp -OutputPath out/docs/PSRule.Rules.Kubernetes -Path '.\docs\commands\PSRule.Rules.Kubernetes\en-US' -Force;
 
+    if (!(Test-Path out/modules/PSRule.Rules.Kubernetes/en-US/)) {
+        New-Item -Path out/modules/PSRule.Rules.Kubernetes/en-US/ -ItemType Directory -Force;
+    }
+    if (!(Test-Path out/modules/PSRule.Rules.Kubernetes/en-AU/)) {
+        New-Item -Path out/modules/PSRule.Rules.Kubernetes/en-AU/ -ItemType Directory -Force;
+    }
+    if (!(Test-Path out/modules/PSRule.Rules.Kubernetes/en-GB/)) {
+        New-Item -Path out/modules/PSRule.Rules.Kubernetes/en-GB/ -ItemType Directory -Force;
+    }
+
     # Copy generated help into module out path
     # $Null = Copy-Item -Path out/docs/PSRule.Rules.Kubernetes/ -Destination out/modules/PSRule.Rules.Kubernetes/en-US/ -Recurse;
     # $Null = Copy-Item -Path out/docs/PSRule.Rules.Kubernetes/ -Destination out/modules/PSRule.Rules.Kubernetes/en-AU/ -Recurse;
     # $Null = Copy-Item -Path out/docs/PSRule.Rules.Kubernetes/ -Destination out/modules/PSRule.Rules.Kubernetes/en-GB/ -Recurse;
-    # $Null = Copy-Item -Path docs/rules/en-US/*.md -Destination out/modules/PSRule.Rules.Kubernetes/en-US/;
-    # $Null = Copy-Item -Path docs/rules/en-US/*.md -Destination out/modules/PSRule.Rules.Kubernetes/en-AU/;
-    # $Null = Copy-Item -Path docs/rules/en-US/*.md -Destination out/modules/PSRule.Rules.Kubernetes/en-GB/;
+    $Null = Copy-Item -Path docs/rules/en-US/*.md -Destination out/modules/PSRule.Rules.Kubernetes/en-US/;
+    $Null = Copy-Item -Path docs/rules/en-US/*.md -Destination out/modules/PSRule.Rules.Kubernetes/en-AU/;
+    $Null = Copy-Item -Path docs/rules/en-US/*.md -Destination out/modules/PSRule.Rules.Kubernetes/en-GB/;
 }
 
 task ScaffoldHelp Build, BuildRuleDocs, {

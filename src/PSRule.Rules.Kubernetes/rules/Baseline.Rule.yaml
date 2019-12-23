@@ -1,0 +1,28 @@
+
+---
+# Synopsis: A baseline for Kubernetes.
+kind: Baseline
+metadata:
+  name: KubeBaseline
+spec:
+  binding:
+    targetName:
+    - metadata.name
+    targetType:
+    - kind
+    field:
+      namespace: [ 'metadata.namespace' ]
+
+---
+# Synopsis: A baseline for Azure Kubernetes Service (AKS).
+kind: Baseline
+metadata:
+  name: AKSBaseline
+spec:
+  binding:
+    targetName:
+    - metadata.name
+    targetType:
+    - kind
+    field:
+      namespace: [ 'metadata.namespace' ]

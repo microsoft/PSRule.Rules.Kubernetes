@@ -21,14 +21,24 @@ Import-Module (Join-Path -Path $rootPath -ChildPath out/modules/PSRule.Rules.Kub
 $here = (Resolve-Path $PSScriptRoot).Path;
 
 Describe 'Rule quality' {
-    Context 'Metadata' {
-        $result = Get-PSRule -Module PSRule.Rules.Kubernetes -WarningAction Ignore;
+    $rules = Get-PSRule -Module PSRule.Rules.Kubernetes -WarningAction Ignore;
 
-        foreach ($rule in $result) {
+    Context 'Naming' {
+        foreach ($rule in $rules) {
             It $rule.RuleName {
+                $rule.RuleName.Length -le 35 | Should -Be $True;
+            }
+        }
+    }
+
+    Context 'Metadata' {
+        foreach ($rule in $rules) {
+            It $rule.RuleName {
+                $rule.Synopsis | Should -Not -BeNullOrEmpty;
                 $rule.Description | Should -Not -BeNullOrEmpty;
-                $rule.Tag.severity | Should -Not -BeNullOrEmpty;
                 $rule.Tag.category | Should -Not -BeNullOrEmpty;
+                $rule.Info.Annotations.severity | Should -Not -BeNullOrEmpty;
+                $rule.Info.GetOnlineHelpUri()  | Should -Not -BeNullOrEmpty;
             }
         }
     }
