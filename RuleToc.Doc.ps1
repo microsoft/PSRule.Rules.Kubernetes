@@ -15,7 +15,7 @@ Document 'module' {
         $rules | Table -Property @{ Name = 'RuleName'; Expression = {
             "[$($_.RuleName)]($($_.RuleName).md)"
         }}, Description, @{ Name = 'Category'; Expression = {
-            $_.Info.Annotations.category
+            $_.Tag.category
         }}
     }
 }
