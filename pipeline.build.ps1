@@ -114,7 +114,7 @@ task VersionModule ModuleDependencies, {
 
 # Synopsis: Publish to PowerShell Gallery
 task ReleaseModule VersionModule, {
-    $modulePath = (Join-Path -Path $ArtifactPath -ChildPath PSRule.Rules.Azure);
+    $modulePath = (Join-Path -Path $ArtifactPath -ChildPath PSRule.Rules.Kubernetes);
     Write-Verbose -Message "[ReleaseModule] -- Checking module path: $modulePath";
 
     if (!(Test-Path -Path $modulePath)) {
