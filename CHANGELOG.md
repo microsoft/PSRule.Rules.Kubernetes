@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.1.0-B1912003 (pre-release)
+
 - Fixed `Kubernetes.AKS.PublicLB` handling of internal LB annotation. [#17](https://github.com/BernieWhite/PSRule.Rules.Kubernetes/issues/17)
 - Updated metadata rule to align to recommended labels. [#14](https://github.com/BernieWhite/PSRule.Rules.Kubernetes/issues/14)
 - Expanded deployment rules to include pods and replica sets. [#13](https://github.com/BernieWhite/PSRule.Rules.Kubernetes/issues/13)
