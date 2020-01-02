@@ -1,5 +1,6 @@
 ---
 severity: Important
+category: Reliability
 online version: https://github.com/BernieWhite/PSRule.Rules.Kubernetes/blob/master/docs/rules/en-US/Kubernetes.Pod.Health.md
 ---
 
@@ -17,7 +18,7 @@ This is accomplished through liveness and readiness probes.
 
 ## RECOMMENDATION
 
-Containers should use liveness and readiness probes.
+Consider configuring liveness and readiness probes for pod containers.
 
 ## LINKS
 

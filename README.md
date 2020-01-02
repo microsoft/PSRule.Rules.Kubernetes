@@ -10,11 +10,11 @@ This project is to be considered a **proof-of-concept** and **not a supported pr
 
 For issues with rules and documentation please check our GitHub [issues](https://github.com/BernieWhite/PSRule.Rules.Kubernetes/issues) page. If you do not see your problem captured, please file a new issue and follow the provided template.
 
-If you have any problems with the [PSRule][project] engine, please check the project GitHub [issues](https://github.com/BernieWhite/PSRule/issues) page instead.
+If you have any problems with the [PSRule][project] engine, please check the project GitHub [issues](https://github.com/Microsoft/PSRule/issues) page instead.
 
 ## Getting the modules
 
-This project requires the PowerShell module PSRule.
+This project requires the `PSRule` PowerShell module.
 
 You can download and install these modules from the PowerShell Gallery.
 
@@ -23,6 +23,11 @@ Module                  | Description | Downloads / instructions
 PSRule.Rules.Kubernetes | Validate Kubernetes resources | [latest][module] / [instructions][install]
 
 ## Getting started
+
+PSRule for Kubernetes provides two methods for analyzing Kubernetes resources:
+
+- _Pre-flight_ - Before resources are deployed from a YAML manifest file.
+- _In-flight_ - After resource are deployed to Kubernetes cluster.
 
 ### Offline with a manifest
 
@@ -33,6 +38,8 @@ Invoke-PSRule -Module PSRule.Rules.Kubernetes -InputPath .\service.yaml;
 ```
 
 ### Online with kubectl
+
+Kubernetes resource can be evaluated directly from a cluster using kubectl.
 
 ```powershell
 Invoke-PSRule -Module PSRule.Rules.Kubernetes -InputObject (kubectl get services -o yaml | Out-String) -Format Yaml -ObjectPath items;
@@ -61,4 +68,4 @@ This project is [licensed under the MIT License](LICENSE).
 [install]: docs/scenarios/install-instructions.md
 [ci-badge]: https://dev.azure.com/bewhite/PSRule.Rules.Kubernetes/_apis/build/status/PSRule.Rules.Kubernetes-CI?branchName=master
 [module]: https://www.powershellgallery.com/packages/PSRule.Rules.Kubernetes
-[project]: https://github.com/BernieWhite/PSRule
+[project]: https://github.com/Microsoft/PSRule

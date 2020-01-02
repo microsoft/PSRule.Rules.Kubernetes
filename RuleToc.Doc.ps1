@@ -3,19 +3,29 @@ Document 'module' {
     Title 'Module rules'
 
     Import-Module .\out\modules\PSRule.Rules.Kubernetes
-    $rules = Get-PSRule -Module PSRule.Rules.Kubernetes -WarningAction SilentlyContinue
+    $rules = Get-PSRule -Module PSRule.Rules.Kubernetes -WarningAction SilentlyContinue |
+        Add-Member -MemberType ScriptProperty -Name Category -Value { $this.Info.Annotations.category } -PassThru |
+        Sort-Object -Property Category;
 
     Section 'Baselines' {
-        # 'The following baselines are included in `PSRule.Rules.Kubernetes`.'
+        # 'The following baselines are included within `PSRule.Rules.Kubernetes`.'
     }
 
     Section 'Rules' {
-        'The following rules are included in `PSRule.Rules.Kubernetes`.'
+        'The following rules are included within `PSRule.Rules.Kubernetes`.'
 
-        $rules | Table -Property @{ Name = 'RuleName'; Expression = {
-            "[$($_.RuleName)]($($_.RuleName).md)"
-        }}, Description, @{ Name = 'Category'; Expression = {
-            $_.Tag.category
-        }}
+        $categories = $rules | Group-Object -Property Category;
+
+        foreach ($category in $categories) {
+            Section "$($category.Name)" {
+                $category.Group |
+                    Sort-Object -Property RuleName |
+                    Table -Property @{ Name = 'Name'; Expression = {
+                        "[$($_.RuleName)]($($_.RuleName).md)"
+                    }}, Synopsis, @{ Name = 'Severity'; Expression = {
+                        $_.Info.Annotations.severity
+                    }}
+            }
+        }
     }
 }

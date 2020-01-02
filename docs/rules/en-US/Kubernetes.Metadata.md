@@ -1,6 +1,6 @@
 ---
-severity: Important
-category: Resource management
+severity: Awareness
+category: Management
 online version: https://github.com/BernieWhite/PSRule.Rules.Kubernetes/blob/master/docs/rules/en-US/Kubernetes.Metadata.md
 ---
 
@@ -19,4 +19,6 @@ These labels should be used to consistently apply standard metadata.
 
 Consider applying recommended labels defined by Kubernetes.
 
-For more information see [Recommended Labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/).
+## LINKS
+
+- [Recommended Labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/)

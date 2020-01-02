@@ -18,7 +18,8 @@
         "**/.azure-pipelines/*.yaml": "azure-pipelines"
     },
     "cSpell.words": [
-        "Kubernetes"
+        "Kubernetes",
+        "setuid"
     ],
     "cSpell.enabledLanguageIds": [
         "csharp",

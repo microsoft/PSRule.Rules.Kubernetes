@@ -1,6 +1,6 @@
 ---
 severity: Critical
-category: Service exposure
+category: Security
 online version: https://github.com/BernieWhite/PSRule.Rules.Kubernetes/blob/master/docs/rules/en-US/Kubernetes.AKS.PublicLB.md
 ---
 
@@ -21,3 +21,7 @@ When this annotation is used on a load balanced service, the Azure load balancer
 ## RECOMMENDATION
 
 Consider creating services with an internal load balancer instead of a public load balancer.
+
+## LINKS
+
+- [Use an internal load balancer with Azure Kubernetes Service (AKS)](https://docs.microsoft.com/en-us/azure/aks/internal-lb#create-an-internal-load-balancer)
