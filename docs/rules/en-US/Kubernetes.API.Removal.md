@@ -1,6 +1,6 @@
 ---
 severity: Important
-category: Resource APIs
+category: API
 online version: https://github.com/BernieWhite/PSRule.Rules.Kubernetes/blob/master/docs/rules/en-US/Kubernetes.API.Removal.md
 ---
 

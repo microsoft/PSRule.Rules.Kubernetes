@@ -10,11 +10,11 @@ This project is to be considered a **proof-of-concept** and **not a supported pr
 
 For issues with rules and documentation please check our GitHub [issues](https://github.com/BernieWhite/PSRule.Rules.Kubernetes/issues) page. If you do not see your problem captured, please file a new issue and follow the provided template.
 
-If you have any problems with the [PSRule][project] engine, please check the project GitHub [issues](https://github.com/BernieWhite/PSRule/issues) page instead.
+If you have any problems with the [PSRule][project] engine, please check the project GitHub [issues](https://github.com/Microsoft/PSRule/issues) page instead.
 
 ## Getting the modules
 
-This project requires the PowerShell module PSRule.
+This project requires the `PSRule` PowerShell module.
 
 You can download and install these modules from the PowerShell Gallery.
 
@@ -24,25 +24,123 @@ PSRule.Rules.Kubernetes | Validate Kubernetes resources | [latest][module] / [in
 
 ## Getting started
 
+PSRule for Kubernetes provides two methods for analyzing Kubernetes resources:
+
+- _Pre-flight_ - Before resources are deployed from a YAML manifest file.
+- _In-flight_ - After resources are deployed to a Kubernetes cluster.
+
 ### Offline with a manifest
 
-Kubernetes resources can be evaluated within a YAML manifest file.
+Kubernetes resources can be validated within a YAML manifest file.
+To validate Kubernetes resources use the `Invoke-PSRule` cmdlet. PSRule natively supports reading objects from YAML files using the `-InputPath` parameter.
+The `-InputPath` parameter can be abbreviated to `-f`.
+
+For example:
 
 ```powershell
-Invoke-PSRule -Module PSRule.Rules.Kubernetes -InputPath .\service.yaml;
+Invoke-PSRule -f service.yaml -Module PSRule.Rules.Kubernetes;
+```
+
+The input path can be also be a URL to a YAML file. For example:
+
+```powershell
+$sourceUrl = 'https://raw.githubusercontent.com/Azure-Samples/azure-voting-app-redis/master/azure-vote-all-in-one-redis.yaml';
+Invoke-PSRule -f $sourceUrl -Module PSRule.Rules.Kubernetes;
+```
+
+The output of this example is:
+
+```text
+   TargetName: azure-vote-back
+
+RuleName                            Outcome    Recommendation
+--------                            -------    --------------
+Kubernetes.API.Removal              Fail       Consider updating resource deployments to use newer API endpoints prior…
+Kubernetes.Metadata                 Fail       Consider applying recommended labels defined by Kubernetes.…
+Kubernetes.Pod.PrivilegeEscalation  Fail       Containers should deny privilege escalation.
+Kubernetes.Pod.Latest               Fail       Deployments or pods should identify a specific tag to use for container…
+Kubernetes.Pod.Resources            Fail       Resource requirements are set for each container.
+Kubernetes.Pod.Secrets              Pass       Use Kubernetes secrets to store information such as passwords or connec…
+Kubernetes.Pod.Health               Fail       Containers should use liveness and readiness probes.
+Kubernetes.Pod.Replicas             Fail       Consider increasing replicas to two or more to provide high availabilit…
+Kubernetes.AKS.PublicLB             Pass       Consider creating services with an internal load balancer instead of a …
+Kubernetes.Metadata                 Fail       Consider applying recommended labels defined by Kubernetes.…
+
+   TargetName: azure-vote-front
+
+RuleName                            Outcome    Recommendation
+--------                            -------    --------------
+Kubernetes.API.Removal              Fail       Consider updating resource deployments to use newer API endpoints prior…
+Kubernetes.Metadata                 Fail       Consider applying recommended labels defined by Kubernetes.…
+Kubernetes.Pod.PrivilegeEscalation  Fail       Containers should deny privilege escalation.
+Kubernetes.Pod.Latest               Pass       Deployments or pods should identify a specific tag to use for container…
+Kubernetes.Pod.Resources            Fail       Resource requirements are set for each container.
+Kubernetes.Pod.Secrets              Pass       Use Kubernetes secrets to store information such as passwords or connec…
+Kubernetes.Pod.Health               Fail       Containers should use liveness and readiness probes.
+Kubernetes.Pod.Replicas             Fail       Consider increasing replicas to two or more to provide high availabilit…
+Kubernetes.AKS.PublicLB             Fail       Consider creating services with an internal load balancer instead of a …
+Kubernetes.Metadata                 Fail       Consider applying recommended labels defined by Kubernetes.…
 ```
 
 ### Online with kubectl
 
+Kubernetes resources can be validated directly from a cluster using the output from `kubectl`.
+To validate resources using `kubectl`, return the output as YAML with the `-o yaml` parameter.
+
+For example:
+
 ```powershell
-Invoke-PSRule -Module PSRule.Rules.Kubernetes -InputObject (kubectl get services -o yaml | Out-String) -Format Yaml -ObjectPath items;
+kubectl get services -o yaml | Out-String | Invoke-PSRule -Format Yaml -ObjectPath items -Module PSRule.Rules.Kubernetes;
+```
+
+In the example above:
+
+- `Out-String` - is used to concatenate the output into a single string object.
+- `-Format Yaml` - indicates that the input is YAML.
+- `-ObjectPath items` - indicates that the input nests objects to evaluate under the `items` property.
+
+### Additional options
+
+To filter results to only failed rules, use `Invoke-PSRule -Outcome Fail`.
+Passed, failed and error results are shown by default.
+
+For example:
+
+```powershell
+# Only show failed results
+Invoke-PSRule -f $sourceUrl -Module 'PSRule.Rules.Kubernetes' -Outcome Fail;
+```
+
+A summary of results can be displayed by using `Invoke-PSRule -As Summary`.
+
+For example:
+
+```powershell
+# Display as summary results
+Invoke-PSRule -f $sourceUrl -Module 'PSRule.Rules.Kubernetes' -As Summary;
+```
+
+The output of this example is:
+
+```text
+RuleName                            Pass  Fail  Outcome
+--------                            ----  ----  -------
+Kubernetes.AKS.PublicLB             1     1     Fail
+Kubernetes.API.Removal              0     2     Fail
+Kubernetes.Metadata                 0     4     Fail
+Kubernetes.Pod.PrivilegeEscalation  0     2     Fail
+Kubernetes.Pod.Latest               1     1     Fail
+Kubernetes.Pod.Resources            0     2     Fail
+Kubernetes.Pod.Secrets              2     0     Pass
+Kubernetes.Pod.Health               0     2     Fail
+Kubernetes.Pod.Replicas             0     2     Fail
 ```
 
 ## Rule reference
 
-The following rules are included in the `PSRule.Rules.Kubernetes` module:
+For a list of rules included in the `PSRule.Rules.Kubernetes` module see:
 
-- [PSRule.Rules.Kubernetes](docs/rules/en-US/module.md)
+- [Module rule reference](docs/rules/en-US/module.md)
 
 ## Changes and versioning
 
@@ -61,4 +159,4 @@ This project is [licensed under the MIT License](LICENSE).
 [install]: docs/scenarios/install-instructions.md
 [ci-badge]: https://dev.azure.com/bewhite/PSRule.Rules.Kubernetes/_apis/build/status/PSRule.Rules.Kubernetes-CI?branchName=master
 [module]: https://www.powershellgallery.com/packages/PSRule.Rules.Kubernetes
-[project]: https://github.com/BernieWhite/PSRule
+[project]: https://github.com/Microsoft/PSRule
