@@ -27,29 +27,42 @@ PSRule.Rules.Kubernetes | Validate Kubernetes resources | [latest][module] / [in
 PSRule for Kubernetes provides two methods for analyzing Kubernetes resources:
 
 - _Pre-flight_ - Before resources are deployed from a YAML manifest file.
-- _In-flight_ - After resource are deployed to Kubernetes cluster.
+- _In-flight_ - After resources are deployed to a Kubernetes cluster.
 
 ### Offline with a manifest
 
 Kubernetes resources can be evaluated within a YAML manifest file.
+PSRule natively supports reading objects from YAML files using the `-InputPath` parameter.
+The `-InputPath` parameter can be abbreviated to `-f`.
+
+For example:
 
 ```powershell
-Invoke-PSRule -Module PSRule.Rules.Kubernetes -InputPath .\service.yaml;
+Invoke-PSRule -f service.yaml -Module PSRule.Rules.Kubernetes;
 ```
 
 ### Online with kubectl
 
-Kubernetes resource can be evaluated directly from a cluster using kubectl.
+Kubernetes resources can be evaluated directly from a cluster using the output from `kubectl`.
+To evaluate resources using `kubectl`, return the output as YAML with the `-o yaml` parameter.
+
+For example:
 
 ```powershell
-Invoke-PSRule -Module PSRule.Rules.Kubernetes -InputObject (kubectl get services -o yaml | Out-String) -Format Yaml -ObjectPath items;
+kubectl get services -o yaml | Out-String | Invoke-PSRule -Format Yaml -ObjectPath items -Module PSRule.Rules.Kubernetes;
 ```
+
+In the example above:
+
+- `Out-String` - is used to concatenate the output into a single string object.
+- `-Format Yaml` - indicates that the input is YAML.
+- `-ObjectPath items` - indicates that the output nests objects to evaluate under the `items` property.
 
 ## Rule reference
 
-The following rules are included in the `PSRule.Rules.Kubernetes` module:
+For a list of rules included in the `PSRule.Rules.Kubernetes` module see:
 
-- [PSRule.Rules.Kubernetes](docs/rules/en-US/module.md)
+- [Module rule reference](docs/rules/en-US/module.md)
 
 ## Changes and versioning
 

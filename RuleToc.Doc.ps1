@@ -1,6 +1,6 @@
 
 Document 'module' {
-    Title 'Module rules'
+    Title 'Module rule reference'
 
     Import-Module .\out\modules\PSRule.Rules.Kubernetes
     $rules = Get-PSRule -Module PSRule.Rules.Kubernetes -WarningAction SilentlyContinue |
