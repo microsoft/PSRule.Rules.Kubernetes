@@ -23,8 +23,8 @@ $here = (Resolve-Path $PSScriptRoot).Path;
 Describe 'Kubernetes.AKS' {
     $testParams = @{
         Module = 'PSRule.Rules.Kubernetes'
-        # Option = Join-Path -Path $here -ChildPath ps-rule.yaml
         InputPath = Join-Path -Path $here -ChildPath Resources.AKS.yaml
+        Baseline = 'AKS'
     }
 
     $result = Invoke-PSRule @testParams -WarningAction Ignore;

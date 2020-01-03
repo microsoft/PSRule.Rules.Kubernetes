@@ -63,7 +63,6 @@ Kubernetes.Pod.Resources            Fail       Resource requirements are set for
 Kubernetes.Pod.Secrets              Pass       Use Kubernetes secrets to store information such as passwords or connec…
 Kubernetes.Pod.Health               Fail       Containers should use liveness and readiness probes.
 Kubernetes.Pod.Replicas             Fail       Consider increasing replicas to two or more to provide high availabilit…
-Kubernetes.AKS.PublicLB             Pass       Consider creating services with an internal load balancer instead of a …
 Kubernetes.Metadata                 Fail       Consider applying recommended labels defined by Kubernetes.…
 
    TargetName: azure-vote-front
@@ -78,7 +77,6 @@ Kubernetes.Pod.Resources            Fail       Resource requirements are set for
 Kubernetes.Pod.Secrets              Pass       Use Kubernetes secrets to store information such as passwords or connec…
 Kubernetes.Pod.Health               Fail       Containers should use liveness and readiness probes.
 Kubernetes.Pod.Replicas             Fail       Consider increasing replicas to two or more to provide high availabilit…
-Kubernetes.AKS.PublicLB             Fail       Consider creating services with an internal load balancer instead of a …
 Kubernetes.Metadata                 Fail       Consider applying recommended labels defined by Kubernetes.…
 ```
 
@@ -98,6 +96,23 @@ In the example above:
 - `Out-String` - is used to concatenate the output into a single string object.
 - `-Format Yaml` - indicates that the input is YAML.
 - `-ObjectPath items` - indicates that the input nests objects to evaluate under the `items` property.
+
+### Using baselines
+
+PSRule for Kubernetes comes with the following baselines:
+
+- `Kubernetes` - Includes common Kubernetes rules. This is the default.
+- `AKS` - Includes all the rules from `Kubernetes` plus additional Azure Kubernetes Service (AKS) specific rules.
+
+To use the `AKS` baseline instead of the default use `Invoke-PSRule -Baseline AKS`.
+
+For example:
+
+```powershell
+Invoke-PSRule -f $sourceUrl -Module 'PSRule.Rules.Kubernetes' -Baseline AKS;
+```
+
+If `-Baseline AKS` is not specified, the default baseline `Kubernetes` will be used.
 
 ### Additional options
 
@@ -125,7 +140,6 @@ The output of this example is:
 ```text
 RuleName                            Pass  Fail  Outcome
 --------                            ----  ----  -------
-Kubernetes.AKS.PublicLB             1     1     Fail
 Kubernetes.API.Removal              0     2     Fail
 Kubernetes.Metadata                 0     4     Fail
 Kubernetes.Pod.PrivilegeEscalation  0     2     Fail

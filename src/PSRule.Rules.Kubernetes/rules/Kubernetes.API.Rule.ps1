@@ -3,7 +3,7 @@
 #
 
 # Synopsis: Avoid using legacy API endpoints
-Rule 'Kubernetes.API.Removal' -Type DaemonSet, Deployment, StatefulSet, ReplicaSet, NetworkPolicy, PodSecurityPolicy -Tag @{ category = 'API' } {
+Rule 'Kubernetes.API.Removal' -Type DaemonSet, Deployment, StatefulSet, ReplicaSet, NetworkPolicy, PodSecurityPolicy -Tag @{ group = 'core' } {
     if ($PSRule.TargetType -in 'DaemonSet', 'Deployment', 'StatefulSet', 'ReplicaSet') {
         $TargetObject.apiVersion -eq 'apps/v1'
     }
