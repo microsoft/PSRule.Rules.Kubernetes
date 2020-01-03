@@ -3,7 +3,7 @@
 #
 
 # Synopsis: Containers should deny privilege escalation
-Rule 'Kubernetes.Pod.PrivilegeEscalation' -Type Deployment, Pod, ReplicaSet -If { (HasContainerSpec) } -Tag @{ category = 'Pod security'; } {
+Rule 'Kubernetes.Pod.PrivilegeEscalation' -Type Deployment, Pod, ReplicaSet -If { (HasContainerSpec) } -Tag @{ group = 'core' } {
     foreach ($container in (GetContainerSpec)) {
         $container | Exists 'securityContext.allowPrivilegeEscalation'
         $container.securityContext.allowPrivilegeEscalation -eq $False
@@ -11,7 +11,7 @@ Rule 'Kubernetes.Pod.PrivilegeEscalation' -Type Deployment, Pod, ReplicaSet -If 
 }
 
 # Synopsis: Containers should use specific tags instead of latest
-Rule 'Kubernetes.Pod.Latest' -Type Deployment, Pod, ReplicaSet -If { (HasContainerSpec) } -Tag @{ category = 'Pod security'; } {
+Rule 'Kubernetes.Pod.Latest' -Type Deployment, Pod, ReplicaSet -If { (HasContainerSpec) } -Tag @{ group = 'core' } {
     foreach ($container in (GetContainerSpec)) {
         $container.image -like '*:*' -and 
         $container.image -notlike '*:latest'
@@ -19,7 +19,7 @@ Rule 'Kubernetes.Pod.Latest' -Type Deployment, Pod, ReplicaSet -If { (HasContain
 }
 
 # Synopsis: Resource requirements are set for each container
-Rule 'Kubernetes.Pod.Resources' -Type Deployment, Pod, ReplicaSet -If { (HasContainerSpec) } -Tag @{ category = 'Resource management'; } {
+Rule 'Kubernetes.Pod.Resources' -Type Deployment, Pod, ReplicaSet -If { (HasContainerSpec) } -Tag @{ group = 'core' } {
     foreach ($container in (GetContainerSpec)) {
         $container | Exists 'resources.requests.cpu' -Reason $LocalizedData.PodCPURequest
         $container | Exists 'resources.requests.memory' -Reason $LocalizedData.PodMemRequest
@@ -29,7 +29,7 @@ Rule 'Kubernetes.Pod.Resources' -Type Deployment, Pod, ReplicaSet -If { (HasCont
 }
 
 # Synopsis: Sensitive environment variables should be secured
-Rule 'Kubernetes.Pod.Secrets' -Type Deployment, Pod, ReplicaSet -If { (HasContainerSpec) } -Tag @{ category = 'Pod security'; } {
+Rule 'Kubernetes.Pod.Secrets' -Type Deployment, Pod, ReplicaSet -If { (HasContainerSpec) } -Tag @{ group = 'core' } {
     foreach ($container in (GetContainerSpec)) {
         if ($Assert.HasField($container, 'env').Result) {
             foreach ($variable in $container.env) {
@@ -48,7 +48,7 @@ Rule 'Kubernetes.Pod.Secrets' -Type Deployment, Pod, ReplicaSet -If { (HasContai
 }
 
 # Synopsis: Containers should use liveness and readiness probes
-Rule 'Kubernetes.Pod.Health' -Type Deployment, Pod, ReplicaSet -If { (HasContainerSpec) } -Tag @{ category = 'Reliability'; } {
+Rule 'Kubernetes.Pod.Health' -Type Deployment, Pod, ReplicaSet -If { (HasContainerSpec) } -Tag @{ group = 'core' } {
     foreach ($container in (GetContainerSpec)) {
         $container | Exists 'livenessProbe' -Reason ($LocalizedData.LivenessProbe -f $container.name)
     }
@@ -58,7 +58,7 @@ Rule 'Kubernetes.Pod.Health' -Type Deployment, Pod, ReplicaSet -If { (HasContain
 }
 
 # Synopsis: Use two or more replicas
-Rule 'Kubernetes.Pod.Replicas' -Type Deployment, ReplicaSet, StatefulSet -Tag @{ category = 'Reliability'; } {
+Rule 'Kubernetes.Pod.Replicas' -Type Deployment, ReplicaSet, StatefulSet -Tag @{ group = 'core' } {
     Exists 'spec.replicas'
     $TargetObject.spec.replicas -ge 2
 }

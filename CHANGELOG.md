@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- **Breaking change**: Updated and renamed baselines make them easier to use. [#27](https://github.com/BernieWhite/PSRule.Rules.Kubernetes/issues/27)
+  - `KubeBaseline` is now `Kubernetes`, the default baseline.
+  - `AKSBaseline` is now `AKS`.
+  - The `Kubernetes` baseline include common Kubernetes rules.
+  - The `AKS` baseline include all of `Kubernetes` plus additional AKS specific rules.
+
 ## v0.1.0-B1912003 (pre-release)
 
 - Fixed `Kubernetes.AKS.PublicLB` handling of internal LB annotation. [#17](https://github.com/BernieWhite/PSRule.Rules.Kubernetes/issues/17)

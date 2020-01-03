@@ -36,7 +36,7 @@ Describe 'Rule quality' {
             It $rule.RuleName {
                 $rule.Synopsis | Should -Not -BeNullOrEmpty;
                 $rule.Description | Should -Not -BeNullOrEmpty;
-                $rule.Tag.category | Should -Not -BeNullOrEmpty;
+                $rule.Info.Annotations.category | Should -Not -BeNullOrEmpty;
                 $rule.Info.Annotations.severity | Should -Not -BeNullOrEmpty;
                 $rule.Info.GetOnlineHelpUri()  | Should -Not -BeNullOrEmpty;
             }

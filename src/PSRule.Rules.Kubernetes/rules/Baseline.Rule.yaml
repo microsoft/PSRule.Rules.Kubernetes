@@ -3,7 +3,7 @@
 # Synopsis: A baseline for Kubernetes.
 kind: Baseline
 metadata:
-  name: KubeBaseline
+  name: Kubernetes
 spec:
   binding:
     targetName:
@@ -12,12 +12,15 @@ spec:
     - kind
     field:
       namespace: [ 'metadata.namespace' ]
+  rule:
+    tag:
+      group: core
 
 ---
 # Synopsis: A baseline for Azure Kubernetes Service (AKS).
 kind: Baseline
 metadata:
-  name: AKSBaseline
+  name: AKS
 spec:
   binding:
     targetName:
@@ -26,3 +29,6 @@ spec:
     - kind
     field:
       namespace: [ 'metadata.namespace' ]
+  rule:
+    tag:
+      group: [ 'core', 'AKS' ]
