@@ -1,7 +1,7 @@
 ---
 severity: Critical
 category: Security
-online version: https://github.com/BernieWhite/PSRule.Rules.Kubernetes/blob/master/docs/rules/en-US/Kubernetes.Pod.PriviledgeEscalation.md
+online version: https://github.com/BernieWhite/PSRule.Rules.Kubernetes/blob/master/docs/rules/en/Kubernetes.Pod.PriviledgeEscalation.md
 ---
 
 # Deny privilege escalation
