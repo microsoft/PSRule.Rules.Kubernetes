@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## v0.1.0
+
+- Initial release.
+
+What's changed since pre-release v0.1.0-B2001007:
+
 - Updated documentation to use parent culture `en`. [#30](https://github.com/BernieWhite/PSRule.Rules.Kubernetes/issues/30)
 
 ## v0.1.0-B2001007 (pre-release)
