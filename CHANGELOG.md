@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Updated documentation to use parent culture `en`. [#30](https://github.com/BernieWhite/PSRule.Rules.Kubernetes/issues/30)
+
 ## v0.1.0-B2001007 (pre-release)
 
 - **Breaking change**: Updated and renamed baselines make them easier to use. [#27](https://github.com/BernieWhite/PSRule.Rules.Kubernetes/issues/27)

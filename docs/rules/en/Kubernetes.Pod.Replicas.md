@@ -1,7 +1,7 @@
 ---
 severity: Important
 category: Reliability
-online version: https://github.com/BernieWhite/PSRule.Rules.Kubernetes/blob/master/docs/rules/en-US/Kubernetes.Pod.Replicas.md
+online version: https://github.com/BernieWhite/PSRule.Rules.Kubernetes/blob/master/docs/rules/en/Kubernetes.Pod.Replicas.md
 ---
 
 # Use two or more replicas

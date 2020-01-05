@@ -8,7 +8,8 @@ A suite of rules to validate Kubernetes resources using PSRule.
 
 This project is to be considered a **proof-of-concept** and **not a supported product**.
 
-For issues with rules and documentation please check our GitHub [issues](https://github.com/BernieWhite/PSRule.Rules.Kubernetes/issues) page. If you do not see your problem captured, please file a new issue and follow the provided template.
+For issues with rules and documentation please check our GitHub [issues](https://github.com/BernieWhite/PSRule.Rules.Kubernetes/issues) page.
+If you do not see your problem captured, please file a new issue and follow the provided template.
 
 If you have any problems with the [PSRule][project] engine, please check the project GitHub [issues](https://github.com/Microsoft/PSRule/issues) page instead.
 
@@ -32,7 +33,8 @@ PSRule for Kubernetes provides two methods for analyzing Kubernetes resources:
 ### Offline with a manifest
 
 Kubernetes resources can be validated within a YAML manifest file.
-To validate Kubernetes resources use the `Invoke-PSRule` cmdlet. PSRule natively supports reading objects from YAML files using the `-InputPath` parameter.
+To validate Kubernetes resources use the `Invoke-PSRule` cmdlet.
+PSRule natively supports reading objects from YAML files using the `-InputPath` parameter.
 The `-InputPath` parameter can be abbreviated to `-f`.
 
 For example:
@@ -154,7 +156,7 @@ Kubernetes.Pod.Replicas             0     2     Fail
 
 For a list of rules included in the `PSRule.Rules.Kubernetes` module see:
 
-- [Module rule reference](docs/rules/en-US/module.md)
+- [Module rule reference](docs/rules/en/module.md)
 
 ## Changes and versioning
 
