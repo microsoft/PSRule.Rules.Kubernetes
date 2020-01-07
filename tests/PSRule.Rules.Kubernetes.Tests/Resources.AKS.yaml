@@ -16,7 +16,7 @@ spec:
     app: app-A
 
 ---
-# This service should fail kubernetes.AKS.PublicLoadBalancer
+# This service should fail Kubernetes.AKS.PublicLB
 apiVersion: v1
 kind: Service
 metadata:
@@ -29,7 +29,7 @@ spec:
     app: app-B
 
 ---
-# This service should fail kubernetes.AKS.PublicLoadBalancer
+# This service should pass Kubernetes.AKS.PublicLB
 apiVersion: v1
 kind: Service
 metadata:

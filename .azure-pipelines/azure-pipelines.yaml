@@ -146,7 +146,7 @@ stages:
         action: edit
         tag: '$(Build.SourceBranchName)'
         releaseNotesSource: input
-        releaseNotes: 'See [change log](https://github.com/BernieWhite/PSRule.Rules.Kubernetes/blob/master/CHANGELOG.md)'
+        releaseNotes: 'See [change log](https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/master/CHANGELOG.md)'
         assetUploadMode: replace
         addChangeLog: false
         isPreRelease: $(isPreRelease)

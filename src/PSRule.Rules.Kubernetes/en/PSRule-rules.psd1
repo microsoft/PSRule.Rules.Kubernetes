@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 @{
     PodCPURequest = 'Set CPU resource reservation.'
     PodCPULimit = 'Set CPU resource limit.'
