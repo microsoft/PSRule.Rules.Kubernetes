@@ -30,6 +30,8 @@ Check out the links below to get started.
 - GitHub Help:
   - [Git and GitHub learning resources][learn-git].
   - [GitHub Flow Guide][github-flow].
+  - [Fork a repo][github-fork].
+  - [About Pull Requests][github-pr].
 
 ## Contributing to issues
 
