@@ -48,3 +48,7 @@ Check out the links below to get started.
 [learn-git]: https://help.github.com/en/articles/git-and-github-learning-resources
 [github-flow]: https://guides.github.com/introduction/flow/
 [github-signup]: https://github.com/signup/free
+[github-fork]: https://help.github.com/en/github/getting-started-with-github/fork-a-repo
+[github-pr]: https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests
+[github-pr-create]: https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork
+[build]: docs/scenarios/install-instructions.md#building-from-source
