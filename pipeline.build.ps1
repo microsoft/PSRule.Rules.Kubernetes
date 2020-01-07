@@ -1,3 +1,5 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
 
 [CmdletBinding()]
 param (
@@ -78,6 +80,44 @@ function CopyModuleFiles {
 
             Copy-Item -Path $_.FullName -Destination $filePath -Force;
         };
+    }
+}
+
+function Get-RepoRuleData {
+    [CmdletBinding()]
+    param (
+        [Parameter(Position = 0, Mandatory = $False)]
+        [String]$Path = $PWD
+    )
+    process {
+        GetPathInfo -Path $Path -Verbose:$VerbosePreference;
+    }
+}
+
+function GetPathInfo {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $True)]
+        [String]$Path
+    )
+    begin {
+        $items = New-Object -TypeName System.Collections.ArrayList;
+    }
+    process {
+        $Null = $items.Add((Get-Item -Path $Path));
+        $files = @(Get-ChildItem -Path $Path -File -Recurse -Include *.ps1,*.psm1,*.psd1,*.cs | Where-Object {
+            !($_.FullName -like "*.Designer.cs") -and
+            !($_.FullName -like "*/bin/*") -and
+            !($_.FullName -like "*/obj/*") -and
+            !($_.FullName -like "*\obj\*") -and
+            !($_.FullName -like "*\bin\*") -and
+            !($_.FullName -like "*\out\*") -and
+            !($_.FullName -like "*/out/*")
+        });
+        $Null = $items.AddRange($files);
+    }
+    end {
+        $items;
     }
 }
 
@@ -218,8 +258,8 @@ task Rules PSRule, {
         OutputFormat = 'NUnit3';
     }
     Import-Module (Join-Path -Path $PWD -ChildPath out/modules/PSRule.Rules.Kubernetes) -Force;
-    # Get-RepoRuleData -Path $PWD |
-    #     Assert-PSRule @assertParams -OutputPath reports/ps-rule-file.xml;
+    Get-RepoRuleData -Path $PWD |
+        Assert-PSRule @assertParams -OutputPath reports/ps-rule-file.xml;
 
     $rules = Get-PSRule -Module PSRule.Rules.Kubernetes;
     $rules | Assert-PSRule @assertParams -OutputPath reports/ps-rule-file2.xml;

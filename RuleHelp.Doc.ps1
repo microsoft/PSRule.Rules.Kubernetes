@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 #
 # Generate rule help
 #
@@ -16,7 +19,7 @@ Document 'RuleHelp' {
     }
 
     if (!$annotations.Contains('online version')) {
-        $annotations['online version'] = "https://github.com/BernieWhite/PSRule.Rules.Kubernetes/blob/master/docs/rules/en/$($rule.Name).md";
+        $annotations['online version'] = "https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/master/docs/rules/en/$($rule.Name).md";
     }
 
     Metadata $annotations;

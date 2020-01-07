@@ -2,14 +2,14 @@
 info:
   name: PSRule.Rules.Kubernetes
   description: A suite of rules to validate Kubernetes resources using PSRule.
-  url: https://github.com/BernieWhite/PSRule.Rules.Kubernetes
+  url: https://github.com/Microsoft/PSRule.Rules.Kubernetes
 
 repository:
   type: git
-  url: https://github.com/BernieWhite/PSRule.Rules.Kubernetes.git
+  url: https://github.com/Microsoft/PSRule.Rules.Kubernetes.git
 
 modules:
-  PSRule: 0.11.0
+  PSRule: 0.13.0
 
 tasks:
   build:

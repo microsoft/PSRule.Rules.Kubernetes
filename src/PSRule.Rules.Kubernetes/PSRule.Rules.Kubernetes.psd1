@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 #
 # PSRule.Rules.Kubernetes
 #
@@ -17,13 +20,13 @@ CompatiblePSEditions = 'Core', 'Desktop'
 GUID = 'efaacb4d-b447-4de3-96b9-93860fd87a8c'
 
 # Author of this module
-Author = 'Bernie White'
+Author = 'Microsoft Corporation'
 
 # Company or vendor of this module
-CompanyName = 'Bernie White'
+CompanyName = 'Microsoft Corporation'
 
 # Copyright statement for this module
-Copyright = '(c) Bernie White. All rights reserved.'
+Copyright = '(c) Microsoft Corporation. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'Validate Kubernetes resources using PSRule.
@@ -96,16 +99,16 @@ PrivateData = @{
         Tags = @('PSRule', 'PSRule-rules', 'Rule', 'Kubernetes')
 
         # A URL to the license for this module.
-        LicenseUri = 'https://github.com/BernieWhite/PSRule.Rules.Kubernetes/blob/master/LICENSE'
+        LicenseUri = 'https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/master/LICENSE'
 
         # A URL to the main website for this project.
-        ProjectUri = 'https://github.com/BernieWhite/PSRule.Rules.Kubernetes'
+        ProjectUri = 'https://github.com/Microsoft/PSRule.Rules.Kubernetes'
 
         # A URL to an icon representing this module.
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'https://github.com/BernieWhite/PSRule.Rules.Kubernetes/blob/master/CHANGELOG.md'
+        ReleaseNotes = 'https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/master/CHANGELOG.md'
     } # End of PSData hashtable
     PSRule = @{
         Baseline = 'Kubernetes'
