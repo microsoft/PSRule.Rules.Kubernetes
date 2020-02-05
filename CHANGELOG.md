@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- **Breaking change**: Use qualified target names. [#36](https://github.com/Microsoft/PSRule.Rules.Kubernetes/issues/36)
+  - If using suppression, update suppressed target name with qualified name.
+
 ## v0.1.0
 
 - Initial release.

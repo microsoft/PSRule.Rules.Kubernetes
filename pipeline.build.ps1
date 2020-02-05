@@ -143,7 +143,7 @@ task VersionModule ModuleDependencies, {
     $manifest = Test-ModuleManifest -Path $manifestPath;
     $requiredModules = $manifest.RequiredModules | ForEach-Object -Process {
         if ($_.Name -eq 'PSRule' -and $Configuration -eq 'Release') {
-            @{ ModuleName = 'PSRule'; ModuleVersion = '0.13.0' }
+            @{ ModuleName = 'PSRule'; ModuleVersion = '0.14.0' }
         }
         else {
             @{ ModuleName = $_.Name; ModuleVersion = $_.Version }
@@ -193,8 +193,8 @@ task PSScriptAnalyzer NuGet, {
 
 # Synopsis: Install PSRule
 task PSRule NuGet, {
-    if ($Null -eq (Get-InstalledModule -Name PSRule -MinimumVersion 0.13.0 -ErrorAction Ignore)) {
-        Install-Module -Name PSRule -MinimumVersion 0.13.0 -Scope CurrentUser -Force;
+    if ($Null -eq (Get-InstalledModule -Name PSRule -MinimumVersion 0.14.0 -ErrorAction Ignore)) {
+        Install-Module -Name PSRule -MinimumVersion 0.14.0 -Scope CurrentUser -Force;
     }
     Import-Module -Name PSRule -Verbose:$False;
 }

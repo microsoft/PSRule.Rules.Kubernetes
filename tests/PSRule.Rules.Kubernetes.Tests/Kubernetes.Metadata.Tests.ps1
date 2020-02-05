@@ -38,13 +38,13 @@ Describe 'Kubernetes.Metadata' {
             $ruleResult = @($filteredResult | Where-Object { $_.Outcome -eq 'Fail' });
             $ruleResult | Should -Not -BeNullOrEmpty;
             $ruleResult.Length | Should -Be 2;
-            $ruleResult.TargetName | Should -BeIn 'deployment-B', 'service-B';
+            $ruleResult.TargetName | Should -BeIn 'deployment/deployment-B', 'service/service-B';
 
             # Pass
             $ruleResult = @($filteredResult | Where-Object { $_.Outcome -eq 'Pass' });
             $ruleResult | Should -Not -BeNullOrEmpty;
             $ruleResult.Length | Should -Be 2;
-            $ruleResult.TargetName | Should -BeIn 'deployment-A', 'service-A';
+            $ruleResult.TargetName | Should -BeIn 'deployment/deployment-A', 'service/service-A';
         }
     }
 }

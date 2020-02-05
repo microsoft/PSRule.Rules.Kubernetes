@@ -38,13 +38,13 @@ Describe 'Kubernetes.API.Removal' {
             $ruleResult = @($filteredResult | Where-Object { $_.Outcome -eq 'Fail' });
             $ruleResult | Should -Not -BeNullOrEmpty;
             $ruleResult.Length | Should -Be 1;
-            $ruleResult.TargetName | Should -Be 'deployment-B';
+            $ruleResult.TargetName | Should -Be 'deployment/deployment-B';
 
             # Pass
             $ruleResult = @($filteredResult | Where-Object { $_.Outcome -eq 'Pass' });
             $ruleResult | Should -Not -BeNullOrEmpty;
             $ruleResult.Length | Should -Be 1;
-            $ruleResult.TargetName | Should -Be 'deployment-A';
+            $ruleResult.TargetName | Should -Be 'deployment/deployment-A';
         }
     }
 }
