@@ -38,13 +38,13 @@ Describe 'Kubernetes.AKS' {
             $ruleResult = @($filteredResult | Where-Object { $_.Outcome -eq 'Fail' });
             $ruleResult | Should -Not -BeNullOrEmpty;
             $ruleResult.Length | Should -Be 1;
-            $ruleResult.TargetName | Should -Be 'service-B';
+            $ruleResult.TargetName | Should -Be 'service/service-B';
 
             # Pass
             $ruleResult = @($filteredResult | Where-Object { $_.Outcome -eq 'Pass' });
             $ruleResult | Should -Not -BeNullOrEmpty;
             $ruleResult.Length | Should -Be 2;
-            $ruleResult.TargetName | Should -BeIn 'service-A', 'service-C';
+            $ruleResult.TargetName | Should -BeIn 'service/service-A', 'service/service-C';
         }
     }
 }

@@ -12,6 +12,7 @@ spec:
     - kind
     field:
       namespace: [ 'metadata.namespace' ]
+    useQualifiedName: true
   rule:
     tag:
       group: core
@@ -29,6 +30,7 @@ spec:
     - kind
     field:
       namespace: [ 'metadata.namespace' ]
+    useQualifiedName: true
   rule:
     tag:
       group: [ 'core', 'AKS' ]
