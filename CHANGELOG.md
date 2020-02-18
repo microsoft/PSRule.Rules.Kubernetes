@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.0-B2002005 (pre-release)
+
 - Added new rules for API deprecation removals:
   - Planned Kubernetes v1.17.0 deprecation removals. [#38](https://github.com/Microsoft/PSRule.Rules.Kubernetes/issues/38)
   - Planned Kubernetes v1.20.0 deprecation removals. [#39](https://github.com/Microsoft/PSRule.Rules.Kubernetes/issues/39)
