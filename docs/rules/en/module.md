@@ -8,7 +8,9 @@ The following rules are included within `PSRule.Rules.Kubernetes`.
 
 Name | Synopsis | Severity
 ---- | -------- | --------
-[Kubernetes.API.Removal](Kubernetes.API.Removal.md) | Avoid using legacy API endpoints. | Important
+[Kubernetes.API.v1.16](Kubernetes.API.v1.16.md) | Avoid using legacy API endpoints not served by Kubernetes v1.16. | Important
+[Kubernetes.API.v1.17](Kubernetes.API.v1.17.md) | Avoid using legacy API endpoints not served by Kubernetes v1.17. | Important
+[Kubernetes.API.v1.20](Kubernetes.API.v1.20.md) | Avoid using legacy API endpoints not served by Kubernetes v1.20. | Important
 
 ### Management
 

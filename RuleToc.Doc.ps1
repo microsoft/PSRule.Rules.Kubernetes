@@ -5,7 +5,7 @@ Document 'module' {
     Title 'Module rule reference'
 
     Import-Module .\out\modules\PSRule.Rules.Kubernetes
-    $rules = Get-PSRule -Module PSRule.Rules.Kubernetes -WarningAction SilentlyContinue |
+    $rules = Get-PSRule -Module PSRule.Rules.Kubernetes -WarningAction SilentlyContinue -Baseline AKS |
         Add-Member -MemberType ScriptProperty -Name Category -Value { $this.Info.Annotations.category } -PassThru |
         Sort-Object -Property Category;
 
