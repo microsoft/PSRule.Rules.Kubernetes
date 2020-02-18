@@ -275,7 +275,7 @@ task Analyze Build, PSScriptAnalyzer, {
 # Synopsis: Build table of content for rules
 task BuildRuleDocs Build, PSRule, PSDocs, {
     Import-Module (Join-Path -Path $PWD -ChildPath out/modules/PSRule.Rules.Kubernetes) -Force;
-    $Null = Invoke-PSDocument -Name module -OutputPath .\docs\rules\en-US\ -Path .\RuleToc.Doc.ps1;
+    $Null = Invoke-PSDocument -Name module -OutputPath .\docs\rules\en\ -Path .\RuleToc.Doc.ps1;
 }
 
 # Synopsis: Build help
@@ -290,7 +290,7 @@ task BuildHelp BuildModule, PlatyPS, {
 
 task ScaffoldHelp Build, BuildRuleDocs, {
     # Import-Module (Join-Path -Path $PWD -ChildPath out/modules/PSRule.Rules.Kubernetes) -Force;
-    # Update-MarkdownHelp -Path '.\docs\commands\PSRule.Rules.Kubernetes\en-US';
+    # Update-MarkdownHelp -Path '.\docs\commands\PSRule.Rules.Kubernetes\en';
 }
 
 # Synopsis: Add shipit build tag
