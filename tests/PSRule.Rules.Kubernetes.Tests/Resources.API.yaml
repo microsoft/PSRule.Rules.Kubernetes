@@ -1,0 +1,172 @@
+#
+# Kubernetes Pod resources for unit tests
+#
+
+---
+# An example deployment that should pass all rules.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-A
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-A
+  template:
+    metadata:
+      labels:
+        app: app-A
+    spec:
+      containers:
+      - name: app-a
+        image: app-a-image:v1
+        securityContext:
+          allowPrivilegeEscalation: false
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: deployment-B
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-B
+  template:
+    metadata:
+      labels:
+        app: app-B
+    spec:
+      containers:
+      - name: app-b
+        image: app-b-image
+        env:
+        - name: insecure-password
+          value: Pass123
+
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: priority-A
+value: 1000000
+globalDefault: false
+description: "This is a high priority class."
+
+---
+apiVersion: scheduling.k8s.io/v1beta1
+kind: PriorityClass
+metadata:
+  name: priority-B
+value: 100
+globalDefault: false
+description: "This is a low priority class."
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-A
+spec: {}
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-B
+spec: {}
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: clusterRole-A
+rules: []
+
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: role-A
+rules: []
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: roleBinding-A
+roleRef:
+  kind: Role
+  name: role-A
+  apiGroup: rbac.authorization.k8s.io
+subjects: []
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: clusterRoleBinding-A
+roleRef:
+  kind: ClusterRole
+  name: clusterRole-A
+  apiGroup: rbac.authorization.k8s.io
+subjects: []
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: clusterRole-B
+rules: []
+
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1alpha1
+metadata:
+  name: role-B
+rules: []
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1alpha1
+metadata:
+  name: roleBinding-B
+roleRef:
+  kind: Role
+  name: role-B
+  apiGroup: rbac.authorization.k8s.io
+subjects: []
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: clusterRoleBinding-B
+roleRef:
+  kind: ClusterRole
+  name: clusterRole-B
+  apiGroup: rbac.authorization.k8s.io
+subjects: []
