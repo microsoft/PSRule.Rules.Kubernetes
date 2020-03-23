@@ -53,7 +53,7 @@ if ($version -like '*-*') {
 Write-Host -Object "[Pipeline] -- Using version: $version" -ForegroundColor Green;
 Write-Host -Object "[Pipeline] -- Using versionSuffix: $versionSuffix" -ForegroundColor Green;
 
-if ($Env:coverage -eq 'true') {
+if ($Env:COVERAGE -eq 'true') {
     $CodeCoverage = $True;
 }
 
@@ -145,7 +145,7 @@ task VersionModule ModuleDependencies, {
     $manifest = Test-ModuleManifest -Path $manifestPath;
     $requiredModules = $manifest.RequiredModules | ForEach-Object -Process {
         if ($_.Name -eq 'PSRule' -and $Configuration -eq 'Release') {
-            @{ ModuleName = 'PSRule'; ModuleVersion = '0.14.0' }
+            @{ ModuleName = 'PSRule'; ModuleVersion = '0.15.0' }
         }
         else {
             @{ ModuleName = $_.Name; ModuleVersion = $_.Version }
@@ -195,8 +195,8 @@ task PSScriptAnalyzer NuGet, {
 
 # Synopsis: Install PSRule
 task PSRule NuGet, {
-    if ($Null -eq (Get-InstalledModule -Name PSRule -MinimumVersion '0.15.0-B2002012' -AllowPrerelease -ErrorAction Ignore)) {
-        Install-Module -Name PSRule -MinimumVersion '0.15.0-B2002012' -AllowPrerelease -Scope CurrentUser -Force;
+    if ($Null -eq (Get-InstalledModule -Name PSRule -MinimumVersion '0.16.0-B2003027' -AllowPrerelease -ErrorAction Ignore)) {
+        Install-Module -Name PSRule -MinimumVersion '0.16.0-B2003027' -AllowPrerelease -Scope CurrentUser -Force;
     }
     Import-Module -Name PSRule -Verbose:$False;
 }
@@ -214,7 +214,6 @@ task platyPS {
     if ($Null -eq (Get-InstalledModule -Name PlatyPS -MinimumVersion 0.14.0 -ErrorAction Ignore)) {
         Install-Module -Name PlatyPS -Scope CurrentUser -MinimumVersion 0.14.0 -Force;
     }
-    Import-Module -Name PlatyPS -Verbose:$False;
 }
 
 # Synopsis: Install module dependencies
