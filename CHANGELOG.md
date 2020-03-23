@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+## v0.2.0
+
+What's changed since v0.1.0:
+
+- New rules:
+  - API deprecation removals:
+    - Check for planned Kubernetes v1.17.0 API deprecation removals. [#38](https://github.com/Microsoft/PSRule.Rules.Kubernetes/issues/38)
+    - Check for planned Kubernetes v1.20.0 API deprecation removals. [#39](https://github.com/Microsoft/PSRule.Rules.Kubernetes/issues/39)
+- General improvements:
+  - **Breaking change**: Use qualified target names. [#36](https://github.com/Microsoft/PSRule.Rules.Kubernetes/issues/36)
+    - If using suppression, update suppressed target name with qualified name.
+  - **Breaking change**: Renamed `Kubernetes.API.Removal` to handle future API deprecations. [#40](https://github.com/Microsoft/PSRule.Rules.Kubernetes/issues/40)
+    - The rule `Kubernetes.API.Removal` is now `Kubernetes.API.v1.16`.
+
+What's changed since pre-release v0.2.0-B2002005:
+
+- No additional changes.
+
 ## v0.2.0-B2002005 (pre-release)
 
 - Added new rules for API deprecation removals:
