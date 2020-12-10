@@ -1,7 +1,7 @@
 ---
 severity: Important
 category: API
-online version: https://github.com/microsoft/PSRule.Rules.Kubernetes/blob/master/docs/rules/en/Kubernetes.API.v1.17.md
+online version: https://github.com/microsoft/PSRule.Rules.Kubernetes/blob/main/docs/rules/en/Kubernetes.API.v1.17.md
 ---
 
 # Use APIs supported in v1.17
@@ -25,5 +25,5 @@ Consider updating resource deployments to use newer API endpoints prior to upgra
 
 ## LINKS
 
-- [Kubernetes v1.16.0 deprecations and removals](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals)
+- [Kubernetes v1.16.0 deprecations and removals](https://github.com/kubernetes/kubernetes/blob/main/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals)
 - [Kubernetes Deprecation Policy](https://kubernetes.io/docs/reference/using-api/deprecation-policy/)

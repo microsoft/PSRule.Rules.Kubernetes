@@ -1,7 +1,7 @@
 ---
 severity: Critical
 category: Security
-online version: https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/master/docs/rules/en/Kubernetes.AKS.PublicLB.md
+online version: https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/main/docs/rules/en/Kubernetes.AKS.PublicLB.md
 ---
 
 # Use internal load balancer

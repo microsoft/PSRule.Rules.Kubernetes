@@ -188,6 +188,6 @@ or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any addi
 This project is [licensed under the MIT License](LICENSE).
 
 [install]: docs/scenarios/install-instructions.md
-[ci-badge]: https://dev.azure.com/bewhite/PSRule.Rules.Kubernetes/_apis/build/status/PSRule.Rules.Kubernetes-CI?branchName=master
+[ci-badge]: https://dev.azure.com/bewhite/PSRule.Rules.Kubernetes/_apis/build/status/PSRule.Rules.Kubernetes-CI?branchName=main
 [module]: https://www.powershellgallery.com/packages/PSRule.Rules.Kubernetes
 [project]: https://github.com/Microsoft/PSRule
