@@ -1,7 +1,7 @@
 ---
 severity: Important
 category: Reliability
-online version: https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/master/docs/rules/en/Kubernetes.Pod.Health.md
+online version: https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/main/docs/rules/en/Kubernetes.Pod.Health.md
 ---
 
 # Use probes

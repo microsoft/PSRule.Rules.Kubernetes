@@ -1,7 +1,7 @@
 ---
 severity: Important
 category: Performance
-online version: https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/master/docs/rules/en/Kubernetes.Pod.Resources.md
+online version: https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/main/docs/rules/en/Kubernetes.Pod.Resources.md
 ---
 
 # Set compute resource requirements

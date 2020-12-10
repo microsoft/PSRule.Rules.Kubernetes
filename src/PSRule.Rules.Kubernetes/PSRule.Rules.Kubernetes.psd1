@@ -99,7 +99,7 @@ PrivateData = @{
         Tags = @('PSRule', 'PSRule-rules', 'Rule', 'Kubernetes')
 
         # A URL to the license for this module.
-        LicenseUri = 'https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/master/LICENSE'
+        LicenseUri = 'https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/main/LICENSE'
 
         # A URL to the main website for this project.
         ProjectUri = 'https://github.com/Microsoft/PSRule.Rules.Kubernetes'
@@ -108,7 +108,7 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/master/CHANGELOG.md'
+        ReleaseNotes = 'https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/main/CHANGELOG.md'
     } # End of PSData hashtable
     PSRule = @{
         Baseline = 'Kubernetes'

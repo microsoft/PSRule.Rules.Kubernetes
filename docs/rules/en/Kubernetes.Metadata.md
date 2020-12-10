@@ -1,7 +1,7 @@
 ---
 severity: Awareness
 category: Management
-online version: https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/master/docs/rules/en/Kubernetes.Metadata.md
+online version: https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/main/docs/rules/en/Kubernetes.Metadata.md
 ---
 
 # Use recommended labels
