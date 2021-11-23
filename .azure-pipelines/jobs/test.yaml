@@ -1,11 +1,13 @@
 # Azure DevOps
-# CI job for running VM pipelines
+# CI job for running container pipelines
 
 parameters:
   name: ''
   displayName: ''
   buildConfiguration: 'Release'
+  vmImage: 'ubuntu-20.04'
   imageName: ''
+  imageTag: ''
   coverage: 'false'
   publishResults: 'true'
 
@@ -13,7 +15,12 @@ jobs:
 - job: ${{ parameters.name }}
   displayName: ${{ parameters.displayName }}
   pool:
-    vmImage: ${{ parameters.imageName }}
+    vmImage: ${{ parameters.vmImage }}
+  container:
+    image: '${{ parameters.imageName }}:${{ parameters.imageTag }}'
+    env:
+      COVERAGE: ${{ parameters.coverage }}
+      PUBLISHRESULTS: ${{ parameters.publishResults }}
   variables:
     COVERAGE: ${{ parameters.coverage }}
     PUBLISHRESULTS: ${{ parameters.publishResults }}
@@ -33,19 +40,17 @@ jobs:
 
   # Build module
   - powershell: Invoke-Build TestModule -Configuration ${{ parameters.buildConfiguration }} -Build $(Build.BuildNumber)
-    env:
-      COVERAGE: ${{ parameters.coverage }}
     displayName: 'Test module'
 
   # Pester test results
   - task: PublishTestResults@2
     displayName: 'Publish Pester results'
     inputs:
-      testRunTitle: 'Pester on ${{ parameters.imageName }}'
+      testRunTitle: 'Pester on ${{ parameters.imageTag }}'
       testRunner: NUnit
       testResultsFiles: 'reports/pester-unit.xml'
       mergeTestResults: true
-      platform: ${{ parameters.name }}
+      platform: ${{ parameters.imageTag }}
       configuration: ${{ parameters.buildConfiguration }}
       publishRunAttachments: true
     condition: and(succeededOrFailed(), eq(variables['PUBLISHRESULTS'], 'true'))
