@@ -1,3 +1,10 @@
 
+binding:
+  targetName:
+  - metadata.name
+  targetType:
+  - kind
+  useQualifiedName: true
+
 execution:
-  notProcessedWarning: false
+  notProcessedWarning: true
