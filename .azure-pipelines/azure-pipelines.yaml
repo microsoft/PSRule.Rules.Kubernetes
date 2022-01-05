@@ -101,6 +101,7 @@ stages:
       imageName: 'ubuntu-20.04'
       displayName: 'PowerShell coverage'
       coverage: 'true'
+      platform: linux
       publishResults: 'false'
 
   - template: jobs/test.yaml
@@ -108,13 +109,22 @@ stages:
       name: macOS_10_15
       displayName: 'PowerShell 7.1 - macOS-10.15'
       imageName: 'macOS-10.15'
+      platform: macos
 
   - template: jobs/test.yaml
     parameters:
-      name: windows_2019
+      name: ps_5_1_windows_2019
       displayName: 'PowerShell 5.1 - Windows 2019'
       imageName: 'windows-2019'
+      platform: windows
       pwsh: 'false'
+
+  - template: jobs/test.yaml
+    parameters:
+      name: ps_7_2_windows_2019
+      displayName: 'PowerShell 7.2 - Windows 2019'
+      imageName: 'windows-2019'
+      platform: windows
 
   - template: jobs/testContainer.yaml
     parameters:
