@@ -16,7 +16,6 @@ If you have any problems with the [PSRule][project] engine, please check the pro
 ## Getting the modules
 
 This project requires the `PSRule` PowerShell module.
-
 You can download and install these modules from the PowerShell Gallery.
 
 Module                  | Description | Downloads / instructions
