@@ -8,6 +8,7 @@ parameters:
   imageName: ''
   coverage: 'false'
   publishResults: 'true'
+  platform: 'linux'
 
 jobs:
 - job: ${{ parameters.name }}
@@ -35,6 +36,7 @@ jobs:
   - powershell: Invoke-Build TestModule -Configuration ${{ parameters.buildConfiguration }} -Build $(Build.BuildNumber)
     env:
       COVERAGE: ${{ parameters.coverage }}
+      RUN_BICEP_INTEGRATION: ${{ parameters.bicepIntegration }}
     displayName: 'Test module'
 
   # Pester test results
