@@ -85,44 +85,6 @@ function CopyModuleFiles {
     }
 }
 
-function Get-RepoRuleData {
-    [CmdletBinding()]
-    param (
-        [Parameter(Position = 0, Mandatory = $False)]
-        [String]$Path = $PWD
-    )
-    process {
-        GetPathInfo -Path $Path -Verbose:$VerbosePreference;
-    }
-}
-
-function GetPathInfo {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory = $True)]
-        [String]$Path
-    )
-    begin {
-        $items = New-Object -TypeName System.Collections.ArrayList;
-    }
-    process {
-        $Null = $items.Add((Get-Item -Path $Path));
-        $files = @(Get-ChildItem -Path $Path -File -Recurse -Include *.ps1,*.psm1,*.psd1,*.cs | Where-Object {
-            !($_.FullName -like "*.Designer.cs") -and
-            !($_.FullName -like "*/bin/*") -and
-            !($_.FullName -like "*/obj/*") -and
-            !($_.FullName -like "*\obj\*") -and
-            !($_.FullName -like "*\bin\*") -and
-            !($_.FullName -like "*\out\*") -and
-            !($_.FullName -like "*/out/*")
-        });
-        $Null = $items.AddRange($files);
-    }
-    end {
-        $items;
-    }
-}
-
 task VersionModule ModuleDependencies, {
     $modulePath = Join-Path -Path $ArtifactPath -ChildPath PSRule.Rules.Kubernetes;
     $manifestPath = Join-Path -Path $modulePath -ChildPath PSRule.Rules.Kubernetes.psd1;
@@ -182,7 +144,7 @@ task Pester NuGet, {
     if ($Null -eq (Get-InstalledModule -Name Pester -RequiredVersion 4.10.1 -ErrorAction Ignore)) {
         Install-Module -Name Pester -RequiredVersion 4.10.1 -Scope CurrentUser -Force -SkipPublisherCheck;
     }
-    Import-Module -Name Pester -Verbose:$False;
+    Import-Module -Name Pester -RequiredVersion 4.10.1 -Verbose:$False;
 }
 
 # Synopsis: Install PSScriptAnalyzer module
@@ -203,8 +165,8 @@ task PSRule NuGet, {
 
 # Synopsis: Install PSDocs
 task PSDocs NuGet, {
-    if ($Null -eq (Get-InstalledModule -Name PSDocs -MinimumVersion 0.6.3 -ErrorAction Ignore)) {
-        Install-Module -Name PSDocs -MinimumVersion 0.6.3 -AllowPrerelease -Scope CurrentUser -Force;
+    if ($Null -eq (Get-InstalledModule -Name PSDocs -MinimumVersion 0.9.0 -ErrorAction Ignore)) {
+        Install-Module -Name PSDocs -MinimumVersion 0.9.0 -AllowPrerelease -Scope CurrentUser -Force;
     }
     Import-Module -Name PSDocs -Verbose:$False;
 }
@@ -256,12 +218,13 @@ task Rules PSRule, {
     $assertParams = @{
         Path = './.ps-rule/'
         Style = $AssertStyle
-        OutputFormat = 'NUnit3';
+        OutputFormat = 'NUnit3'
+        ErrorAction = 'Stop'
+        As = 'Summary'
     }
-    Import-Module (Join-Path -Path $PWD -ChildPath out/modules/PSRule.Rules.Kubernetes) -Force;
-    Get-RepoRuleData -Path $PWD |
-        Assert-PSRule @assertParams -OutputPath reports/ps-rule-file.xml;
+    Assert-PSRule @assertParams -InputPath $PWD -Module PSRule.Rules.MSFT.OSS -Format File -OutputPath reports/ps-rule-file.xml;
 
+    Import-Module (Join-Path -Path $PWD -ChildPath out/modules/PSRule.Rules.Kubernetes) -Force;
     $rules = Get-PSRule -Module PSRule.Rules.Kubernetes;
     $rules | Assert-PSRule @assertParams -OutputPath reports/ps-rule-file2.xml;
 }
@@ -310,4 +273,4 @@ task Test Build, Rules, TestModule
 
 task Release ReleaseModule, TagBuild
 
-task . Build, Test
+task . Build, Rules
