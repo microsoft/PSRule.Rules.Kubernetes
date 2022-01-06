@@ -26,6 +26,14 @@ kind: Baseline
 metadata:
   name: Kubernetes
 spec:
+  binding:
+    targetName:
+    - metadata.name
+    targetType:
+    - kind
+    field:
+      namespace: [ 'metadata.namespace' ]
+    useQualifiedName: true
   rule:
     tag:
       group: core
@@ -37,6 +45,14 @@ kind: Baseline
 metadata:
   name: AKS
 spec:
+  binding:
+    targetName:
+    - metadata.name
+    targetType:
+    - kind
+    field:
+      namespace: [ 'metadata.namespace' ]
+    useQualifiedName: true
   rule:
     tag:
       group: [ 'core', 'AKS' ]
