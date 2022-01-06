@@ -110,9 +110,6 @@ PrivateData = @{
         # ReleaseNotes of this module
         ReleaseNotes = 'https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/main/CHANGELOG.md'
     } # End of PSData hashtable
-    PSRule = @{
-        Baseline = 'Kubernetes'
-    }
 } # End of PrivateData hashtable
 
 # HelpInfo URI of this module

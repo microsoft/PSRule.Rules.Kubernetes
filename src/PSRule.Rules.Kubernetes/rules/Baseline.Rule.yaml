@@ -1,9 +1,12 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
 
 ---
 # Synopsis: A baseline for Kubernetes.
-kind: Baseline
+apiVersion: github.com/microsoft/PSRule/v1
+kind: ModuleConfig
 metadata:
-  name: Kubernetes
+  name: PSRule.Rules.Kubernetes
 spec:
   binding:
     targetName:
@@ -14,23 +17,26 @@ spec:
       namespace: [ 'metadata.namespace' ]
     useQualifiedName: true
   rule:
+    baseline: Kubernetes
+
+---
+# Synopsis: A baseline for Kubernetes.
+apiVersion: github.com/microsoft/PSRule/v1
+kind: Baseline
+metadata:
+  name: Kubernetes
+spec:
+  rule:
     tag:
       group: core
 
 ---
 # Synopsis: A baseline for Azure Kubernetes Service (AKS).
+apiVersion: github.com/microsoft/PSRule/v1
 kind: Baseline
 metadata:
   name: AKS
 spec:
-  binding:
-    targetName:
-    - metadata.name
-    targetType:
-    - kind
-    field:
-      namespace: [ 'metadata.namespace' ]
-    useQualifiedName: true
   rule:
     tag:
       group: [ 'core', 'AKS' ]
