@@ -39,7 +39,7 @@ Describe 'Rule quality' {
                 $rule.Description | Should -Not -BeNullOrEmpty;
                 $rule.Info.Annotations.category | Should -Not -BeNullOrEmpty;
                 $rule.Info.Annotations.severity | Should -Not -BeNullOrEmpty;
-                $rule.Info.GetOnlineHelpUri()  | Should -Not -BeNullOrEmpty;
+                $rule.Info.GetOnlineHelpUri() | Should -Not -BeNullOrEmpty;
             }
         }
     }
