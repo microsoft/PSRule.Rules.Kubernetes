@@ -8,27 +8,31 @@
 [CmdletBinding()]
 param ()
 
-# Setup error handling
-$ErrorActionPreference = 'Stop';
-Set-StrictMode -Version latest;
+BeforeAll {
+    # Setup error handling
+    $ErrorActionPreference = 'Stop';
+    Set-StrictMode -Version latest;
 
-if ($Env:SYSTEM_DEBUG -eq 'true') {
-    $VerbosePreference = 'Continue';
-}
-
-# Setup tests paths
-$rootPath = $PWD;
-Import-Module (Join-Path -Path $rootPath -ChildPath out/modules/PSRule.Rules.Kubernetes) -Force;
-$here = (Resolve-Path $PSScriptRoot).Path;
-
-Describe 'Kubernetes.Metadata' {
-    $testParams = @{
-        Module = 'PSRule.Rules.Kubernetes'
-        Option = Join-Path -Path $here -ChildPath ps-rule.yaml
-        InputPath = Join-Path -Path $here -ChildPath Resources.Metadata.yaml
+    if ($Env:SYSTEM_DEBUG -eq 'true') {
+        $VerbosePreference = 'Continue';
     }
 
-    $result = Invoke-PSRule @testParams -WarningAction Ignore;
+    # Setup tests paths
+    $rootPath = $PWD;
+    Import-Module (Join-Path -Path $rootPath -ChildPath out/modules/PSRule.Rules.Kubernetes) -Force;
+    $here = (Resolve-Path $PSScriptRoot).Path;
+}
+
+Describe 'Kubernetes.Metadata' {
+    BeforeAll {
+        $testParams = @{
+            Module = 'PSRule.Rules.Kubernetes'
+            Option = Join-Path -Path $here -ChildPath ps-rule.yaml
+            InputPath = Join-Path -Path $here -ChildPath Resources.Metadata.yaml
+        }
+
+        $result = Invoke-PSRule @testParams -WarningAction Ignore;
+    }
 
     Context 'Resource metadata' {
         It 'Kubernetes.Metadata' {

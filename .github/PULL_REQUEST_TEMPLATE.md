@@ -11,4 +11,4 @@
 - **Code changes**
   - [ ] Have unit tests created/ updated
   - [ ] Link to a filed issue
-  - [ ] [Change log](https://github.com/Microsoft/PSRule.Rules.Kubernetes/blob/main/CHANGELOG.md) has been updated with change under unreleased section
+  - [ ] [Change log](https://github.com/microsoft/PSRule.Rules.Kubernetes/blob/main/CHANGELOG.md) has been updated with change under unreleased section
