@@ -131,7 +131,7 @@ stages:
       name: ps_7_2_ubuntu_22_04
       displayName: 'PowerShell 7.2 - ubuntu-22.04'
       imageName: mcr.microsoft.com/powershell
-      imageTag: 7.2.0-ubuntu-22.04
+      imageTag: 7.2-ubuntu-22.04
 
 # Release pipeline
 - stage: Release
