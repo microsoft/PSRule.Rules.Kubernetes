@@ -5,7 +5,7 @@
 What's changed since v0.2.0:
 
 - Engineering:
-  - Bump PSRule dependency to v1.11.0. [#52](https://github.com/microsoft/PSRule.Rules.Kubernetes/issues/52)
+  - Bump PSRule dependency to v2.6.0. [#74](https://github.com/microsoft/PSRule.Rules.Kubernetes/issues/74)
 
 ## v0.2.0
 

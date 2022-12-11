@@ -8,27 +8,31 @@
 [CmdletBinding()]
 param ()
 
-# Setup error handling
-$ErrorActionPreference = 'Stop';
-Set-StrictMode -Version latest;
+BeforeAll {
+    # Setup error handling
+    $ErrorActionPreference = 'Stop';
+    Set-StrictMode -Version latest;
 
-if ($Env:SYSTEM_DEBUG -eq 'true') {
-    $VerbosePreference = 'Continue';
-}
-
-# Setup tests paths
-$rootPath = $PWD;
-Import-Module (Join-Path -Path $rootPath -ChildPath out/modules/PSRule.Rules.Kubernetes) -Force;
-$here = (Resolve-Path $PSScriptRoot).Path;
-
-Describe 'Kubernetes.AKS' {
-    $testParams = @{
-        Module = 'PSRule.Rules.Kubernetes'
-        InputPath = Join-Path -Path $here -ChildPath Resources.AKS.yaml
-        Baseline = 'AKS'
+    if ($Env:SYSTEM_DEBUG -eq 'true') {
+        $VerbosePreference = 'Continue';
     }
 
-    $result = Invoke-PSRule @testParams -WarningAction Ignore;
+    # Setup tests paths
+    $rootPath = $PWD;
+    Import-Module (Join-Path -Path $rootPath -ChildPath out/modules/PSRule.Rules.Kubernetes) -Force;
+    $here = (Resolve-Path $PSScriptRoot).Path;
+}
+
+Describe 'Kubernetes.AKS' {
+    BeforeAll {
+        $testParams = @{
+            Module = 'PSRule.Rules.Kubernetes'
+            InputPath = Join-Path -Path $here -ChildPath Resources.AKS.yaml
+            Baseline = 'AKS'
+        }
+
+        $result = Invoke-PSRule @testParams -WarningAction Ignore;
+    }
 
     Context 'Security' {
         It 'Kubernetes.AKS.PublicLB' {

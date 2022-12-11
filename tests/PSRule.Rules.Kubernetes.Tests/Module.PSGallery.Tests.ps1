@@ -8,17 +8,19 @@
 [CmdletBinding()]
 param ()
 
-# Setup error handling
-$ErrorActionPreference = 'Stop';
-Set-StrictMode -Version latest;
+BeforeAll {
+    # Setup error handling
+    $ErrorActionPreference = 'Stop';
+    Set-StrictMode -Version latest;
 
-if ($Env:SYSTEM_DEBUG -eq 'true') {
-    $VerbosePreference = 'Continue';
+    if ($Env:SYSTEM_DEBUG -eq 'true') {
+        $VerbosePreference = 'Continue';
+    }
+
+    # Setup tests paths
+    $rootPath = $PWD;
+    $modulePath = Join-Path -Path $rootPath -ChildPath out/modules/PSRule.Rules.Kubernetes;
 }
-
-# Setup tests paths
-$rootPath = $PWD;
-$modulePath = Join-Path -Path $rootPath -ChildPath out/modules/PSRule.Rules.Kubernetes;
 
 Describe 'PSRule.Rules.Kubernetes' -Tag 'PowerShellGallery' {
     Context 'Module' {
@@ -28,10 +30,10 @@ Describe 'PSRule.Rules.Kubernetes' -Tag 'PowerShellGallery' {
     }
 
     Context 'Manifest' {
-        $manifestPath = (Join-Path -Path $modulePath -ChildPath PSRule.Rules.Kubernetes.psd1);
-        $result = Test-ModuleManifest -Path $manifestPath;
 
         It 'Has required fields' {
+            $manifestPath = (Join-Path -Path $modulePath -ChildPath PSRule.Rules.Kubernetes.psd1);
+            $result = Test-ModuleManifest -Path $manifestPath;
             $result.Name | Should -Be 'PSRule.Rules.Kubernetes';
             $result.Description | Should -Not -BeNullOrEmpty;
             $result.LicenseUri | Should -Not -BeNullOrEmpty;
